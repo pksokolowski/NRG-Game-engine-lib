@@ -2,7 +2,7 @@ package com.github.pksokolowski.nrg.engine.transposition
 
 import com.github.pksokolowski.nrg.engine.search.transposition.ZobristHash
 import com.github.pksokolowski.nrg.engine.utils.toGameState
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 

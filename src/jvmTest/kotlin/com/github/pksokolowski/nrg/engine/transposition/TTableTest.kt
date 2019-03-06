@@ -1,9 +1,10 @@
 package com.github.pksokolowski.nrg.engine.transposition
 
+import com.github.pksokolowski.nrg.engine.Move
 import com.github.pksokolowski.nrg.engine.search.transposition.TTable
-import com.github.pksokolowski.nrg.engine.search.transposition.TTableEntry
 import com.github.pksokolowski.nrg.engine.utils.toGameState
-import org.junit.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @ExperimentalUnsignedTypes
 class TTableTest {
@@ -14,10 +15,13 @@ class TTableTest {
             00 00 00 00
             -1 00 -1 00
         """.toGameState()
-
         val table = TTable(state, 100)
+        val move = Move(-1,1,1,1,0,0)
 
+        val firstAccess = table[state]
+        firstAccess.bestMove = move
+        val secondAccess = table[state]
 
-        val entry = TTableEntry()
+        assertEquals(move, secondAccess.bestMove)
     }
 }
