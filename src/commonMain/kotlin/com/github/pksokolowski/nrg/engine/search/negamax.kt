@@ -23,5 +23,3 @@ fun negamax(state: GameState, depthLeft: Int, a: Int, b: Int, deadline: Long?, p
 
     return score
 }
-
-// todo implement time limitation

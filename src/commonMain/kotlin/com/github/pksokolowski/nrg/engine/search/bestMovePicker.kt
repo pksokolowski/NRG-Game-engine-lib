@@ -41,5 +41,3 @@ private fun pickBestMoveFullDepth(player: Int, possibleMoves: List<Move>, state:
 
     return bestMove
 }
-
-// todo implement randomization, basically shuffle moves generated before ordering
