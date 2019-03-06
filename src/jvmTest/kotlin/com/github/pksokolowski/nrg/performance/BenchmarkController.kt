@@ -27,7 +27,7 @@ class BenchmarkController(private val benchmarkService: BenchmarkService) {
         val partialResults = mutableListOf<String>()
         val queriesRan = mutableListOf<QueryData>()
 
-        val depths = listOf(8, 7, 6, 6, 8, 8, 9)
+        val depths = listOf(8, 7, 6, 6, 8, 8, 9, 7)
 
         for (i in benchmarkService.queryPreparers.indices) {
             if (untilType > 0 && i == untilType) break

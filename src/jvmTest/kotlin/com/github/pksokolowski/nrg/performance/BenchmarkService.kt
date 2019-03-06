@@ -13,7 +13,8 @@ class BenchmarkService {
         ::prepareMidGameFarApartQuery,
         ::prepareLateGameQuery,
         ::prepareDispersedLateGameQuery,
-        ::prepareBattleOf2sQuery
+        ::prepareBattleOf2sQuery,
+        ::prepareClinchCase
     )
 
     class QueryData(val query: EngineQuery, val info: String)
@@ -152,6 +153,26 @@ class BenchmarkService {
         return QueryData(
             query,
             "[realistic load] Two rectangles of 2-energy pieces, zero distance (depth = $depth)"
+        )
+    }
+
+    fun prepareClinchCase(depth: Int): QueryData {
+        val state = """
+            +1 00 +1 00 +1 +1 +1 00
+            +1 +1 00 +1 00 +1 00 +1
+            +1 00 +1 00 +1 00 +1 00
+            -1 +1 00 +1 00 00 -1 00
+            00 -1 00 -1 00 -1 00 -1
+            -1 00 -1 00 -1 00 -1 00
+            00 -1 00 -1 00 -1 00 -1
+            00 00 00 00 -1 00 -1 00
+        """.toGameState(20)
+
+        val move = Move(-1, 4, 7, 4, 6, 2)
+        val query = EngineQuery(state, move, depthAllowed = depth, randomize = false)
+        return QueryData(
+            query,
+            "[realistic load] Near beginning. No captures available without sacrifice (depth = $depth)"
         )
     }
 }
