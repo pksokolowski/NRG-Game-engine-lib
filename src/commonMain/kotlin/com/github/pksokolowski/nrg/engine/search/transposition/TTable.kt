@@ -11,12 +11,21 @@ class TTable(gameState: GameState, val length: Int) {
         val hash = hashMaker.hashOf(gameState)
         val index = indexOf(hash)
 
-        return data[index]
+        return matchOrNull(index, hash)
             ?: create(index, hash)
     }
 
+    fun clear(){
+        for(i in data.indices) data[i] = null
+    }
+
+    private fun matchOrNull(index: Int, hash: ULong): TTableEntry? {
+        val entry = data[index] ?: return null
+        return if (entry.hash == hash) entry else null
+    }
+
     private fun create(index: Int, hash: ULong) =
-        TTableEntry(hash, null, 0, NodeType.EMPTY).also {
+        TTableEntry.getEmpty(hash).also {
             data[index] = it
             return it
         }

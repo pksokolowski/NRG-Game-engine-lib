@@ -4,8 +4,14 @@ import com.github.pksokolowski.nrg.engine.Move
 import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY
 import com.github.pksokolowski.nrg.engine.utils.bound
 
-fun MutableList<Move>.orderMoves(player: Int): MutableList<Move> {
-    return intSort(player)
+fun MutableList<Move>.orderMoves(player: Int, bestMove: Move? = null): MutableList<Move> {
+    intSort(player)
+
+    bestMove?.let{
+        if(remove(it)) add(0, it)
+    }
+
+    return this
 }
 
 private fun MutableList<Move>.intSort(player: Int): MutableList<Move> {

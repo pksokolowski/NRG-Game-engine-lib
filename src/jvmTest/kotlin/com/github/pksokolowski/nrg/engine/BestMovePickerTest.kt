@@ -1,6 +1,5 @@
 package com.github.pksokolowski.nrg.engine
 
-import com.github.pksokolowski.nrg.engine.Move
 import com.github.pksokolowski.nrg.engine.search.pickBestMoveFrom
 import com.github.pksokolowski.nrg.engine.utils.toGameState
 import kotlin.test.Test

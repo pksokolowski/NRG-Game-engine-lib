@@ -30,6 +30,14 @@ class MoveOrderingTest {
         assertTrue(expected.contentDeepEquals(actual.toTypedArray()))
     }
 
+    @Test
+    fun `places a provided 'best' move first`() {
+        val actual = mutableListOf(NEUTRAL, BIG_CAPTURE, CAPTURE).orderMoves(-1, NEUTRAL)
+        val expected = arrayOf(NEUTRAL, BIG_CAPTURE, CAPTURE)
+
+        assertTrue(expected.contentDeepEquals(actual.toTypedArray()))
+    }
+
     companion object {
         val NEUTRAL = Move(-4, 1, 1, 2, 2, 0)
         val CAPTURE = Move(-4, 1, 2, 2, 3, 1)

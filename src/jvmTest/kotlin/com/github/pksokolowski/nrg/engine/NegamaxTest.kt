@@ -2,6 +2,7 @@ package com.github.pksokolowski.nrg.engine
 
 import com.github.pksokolowski.nrg.engine.GameState
 import com.github.pksokolowski.nrg.engine.search.negamax
+import com.github.pksokolowski.nrg.engine.search.transposition.TTable
 import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY
 import com.github.pksokolowski.nrg.engine.utils.makeMatrix
 import com.github.pksokolowski.nrg.engine.utils.toGameState
@@ -46,6 +47,7 @@ class NegamaxTest {
         val player = state.playerActive
         val a = Int.MIN_VALUE + 1
         val b = Int.MAX_VALUE
-        return negamax(state, depth, a, b, timeLimit, player)
+        val tTable = TTable(state, 1)
+        return negamax(state, depth, a, b, timeLimit, player, tTable)
     }
 }
