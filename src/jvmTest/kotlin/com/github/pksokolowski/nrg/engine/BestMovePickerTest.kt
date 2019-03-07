@@ -17,7 +17,7 @@ class BestMovePickerTest {
         val bestMove = Move(1, 1, 0, 2, 1, -4)
         val pickedMove = pickBestMoveFrom(state, 8)
 
-        assertEquals(bestMove, pickedMove)
+        assertEquals(bestMove, pickedMove.move)
     }
 
     @Test
@@ -31,7 +31,7 @@ class BestMovePickerTest {
         val bestMove = Move(-1, 1, 2, 0, 1, 4)
         val pickedMove = pickBestMoveFrom(state, 8)
 
-        assertEquals(bestMove, pickedMove)
+        assertEquals(bestMove, pickedMove.move)
     }
 
     @Test
@@ -45,6 +45,6 @@ class BestMovePickerTest {
         val bestMove = Move(-4, 2, 2, 1, 1, 1)
         val pickedMove = pickBestMoveFrom(state, 8)
 
-        assertEquals(bestMove, pickedMove)
+        assertEquals(bestMove, pickedMove.move)
     }
 }
