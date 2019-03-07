@@ -36,7 +36,8 @@ private fun pickBestMoveFullDepth(player: Int, possibleMoves: List<Move>, state:
         val score = -negamax(state, depth - 1, -Int.MAX_VALUE, -bestScore, deadline, -player, tTable)
         state.undoMove(move)
 
-        tTable.clear()
+        //if(depth ==8) println(tTable.calcLoad())
+        //tTable.clear()
 
         if (score > bestScore) {
             bestMove = move
