@@ -5,6 +5,7 @@ import com.github.pksokolowski.nrg.engine.Move
 import com.github.pksokolowski.nrg.engine.motion.*
 import com.github.pksokolowski.nrg.engine.motion.MotionDirections.*
 import com.github.pksokolowski.nrg.engine.motion.MoveTypes.*
+import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY
 import kotlin.math.abs
 
 fun possibleMovesFrom(state: GameState): MutableList<Move> {
@@ -21,13 +22,11 @@ fun possibleMovesFrom(state: GameState): MutableList<Move> {
         if (owner != player) continue
 
         fun add(direction: MotionDirections, type: MoveTypes, stepsRange: IntRange = 1..1) =
-                addToList(state, player, moves, x, y, direction, type, stepsRange)
+            addToList(state, player, moves, x, y, direction, type, stepsRange)
 
         val energy = abs(value)
 
         when (energy) {
-            0 -> {
-            }
             1 -> {
                 add(FORWARD, NON_CAPTURE)
                 presetCapturesForward(::add)
@@ -41,11 +40,11 @@ fun possibleMovesFrom(state: GameState): MutableList<Move> {
                 presetCapturesForwardAndBackwards(::add)
                 presetVerticalAndHorizontal(::add, 1..2)
             }
-            // when adding further energy levels, also update the
-            // move ordering to use proper max energy value
-            else -> {
+            MAX_ENERGY -> {
                 presetVerticalAndHorizontal(::add, 1..2)
                 presetDiagonal(::add, 1..4)
+            }
+            else -> {
             }
         }
     }
@@ -58,7 +57,16 @@ fun possibleMovesFromOrNull(state: GameState): MutableList<Move>? {
     return if (moves.isEmpty()) null else moves
 }
 
-private fun addToList(state: GameState, player: Int, list: MutableList<Move>, x: Int, y: Int, direction: MotionDirections, type: MoveTypes, stepsRange: IntRange) {
+private fun addToList(
+    state: GameState,
+    player: Int,
+    list: MutableList<Move>,
+    x: Int,
+    y: Int,
+    direction: MotionDirections,
+    type: MoveTypes,
+    stepsRange: IntRange
+) {
     val (dx, dy) = direction
 
     for (s in stepsRange) {
