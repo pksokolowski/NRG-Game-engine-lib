@@ -8,13 +8,13 @@ fun play(query: EngineQuery) = with(query) {
     state.applyMove(chosenMove)
 
     // todo consider better way to handle end game - include points and a flag?
-    val bestMovInfo = pickBestMoveFrom(state, depthAllowed, timeAllowed, randomize)
-    val bestMove = bestMovInfo.move ?: return EngineResponse(state, listOf(), 0)
+    val bestMoveData = pickBestMoveFrom(state, depthAllowed, timeAllowed, randomize)
+    val bestMove = bestMoveData.move ?: return EngineResponse(state, listOf(), 0)
 
     state.applyMove(bestMove)
 
     val possibleMoves = possibleMovesFrom(state)
-    EngineResponse(state, possibleMoves, bestMovInfo.depthReached)
+    EngineResponse(state, possibleMoves, bestMoveData.depthReached)
 }
 
 fun startGame(): EngineResponse {

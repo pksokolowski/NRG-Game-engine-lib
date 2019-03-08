@@ -6,15 +6,15 @@ import com.github.pksokolowski.nrg.engine.search.transposition.TTable
 import com.github.pksokolowski.nrg.engine.utils.getDeadline
 import com.github.pksokolowski.nrg.engine.utils.isDeadlineCrossed
 
-class BestMoveInfo(val move: Move?, val depthReached: Int)
+class BestMoveData(val move: Move?, val depthReached: Int)
 
-fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, randomize: Boolean = false): BestMoveInfo {
+fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, randomize: Boolean = false): BestMoveData {
     val deadline = getDeadline(timeLimit)
     var chosenMove: Move? = null
 
     val player = state.playerActive
     val possibleMoves = possibleMovesFromOrNull(state)
-            ?: return BestMoveInfo(null, 0)
+            ?: return BestMoveData(null, 0)
 
     if(randomize) possibleMoves.shuffle()
     possibleMoves.orderMoves(player)
@@ -29,7 +29,7 @@ fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, rand
         depthReached = i
         chosenMove = bestMove
     }
-    return BestMoveInfo(chosenMove, depthReached)
+    return BestMoveData(chosenMove, depthReached)
 }
 
 private fun pickBestMoveFullDepth(player: Int, possibleMoves: List<Move>, state: GameState, depth: Int, deadline: Long? = null, tTable: TTable): Move? {
@@ -40,9 +40,6 @@ private fun pickBestMoveFullDepth(player: Int, possibleMoves: List<Move>, state:
         state.applyMove(move)
         val score = -negamax(state, depth - 1, -Int.MAX_VALUE, -bestScore, deadline, -player, tTable)
         state.undoMove(move)
-
-        //if(depth ==8) println(tTable.calcLoad())
-        //tTable.clear()
 
         if (score > bestScore) {
             bestMove = move

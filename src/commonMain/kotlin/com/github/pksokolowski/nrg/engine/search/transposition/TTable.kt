@@ -15,17 +15,6 @@ class TTable(gameState: GameState, val length: Int) {
             ?: create(index, hash)
     }
 
-    fun clear(){
-        for(i in data.indices) data[i] = null
-    }
-
-//    fun calcLoad(): String{
-//        var found = 0
-//        for(i in data.indices) if(data[i] != null) found++
-//        val perc =(found / data.size.toDouble()) * 100
-//        return "TTable used in: ${perc.toInt()}%"
-//    }
-
     private fun matchOrNull(index: Int, hash: ULong): TTableEntry? {
         val entry = data[index] ?: return null
         return if (entry.hash == hash) entry else null
