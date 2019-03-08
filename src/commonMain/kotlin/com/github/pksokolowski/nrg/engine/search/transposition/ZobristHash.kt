@@ -7,7 +7,7 @@ import kotlin.random.Random
 import kotlin.random.nextULong
 
 @ExperimentalUnsignedTypes
-class ZobristHash(width: Int, height: Int) {
+class ZobristHash(width: Int, height: Int): HashMaker {
 
     private val randoms = Array(width) { x ->
         ULongArray(height) { y ->
@@ -17,7 +17,7 @@ class ZobristHash(width: Int, height: Int) {
     private val playerOne = (10 + Random.nextInt()).toULong()
     private val pieces = ULongArray(MAX_ENERGY+2) { Random.nextULong() }
 
-    fun hashOf(gameState: GameState): ULong {
+    override fun hashOf(gameState: GameState): ULong {
         var hash = 0UL
         for (x in 0 until gameState.width)
             for (y in 0 until gameState.height) {

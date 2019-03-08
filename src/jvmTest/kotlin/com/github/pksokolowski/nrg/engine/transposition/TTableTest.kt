@@ -2,6 +2,7 @@ package com.github.pksokolowski.nrg.engine.transposition
 
 import com.github.pksokolowski.nrg.engine.Move
 import com.github.pksokolowski.nrg.engine.search.transposition.TTable
+import com.github.pksokolowski.nrg.engine.search.transposition.ZobristHash
 import com.github.pksokolowski.nrg.engine.utils.toGameState
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +16,8 @@ class TTableTest {
             00 00 00 00
             -1 00 -1 00
         """.toGameState()
-        val table = TTable(state, 1)
+        val hashMaker = ZobristHash(state.width, state.height)
+        val table = TTable(hashMaker, 1)
         val move = Move(-1,1,1,1,0,0)
 
         val firstAccess = table[state]
@@ -37,7 +39,8 @@ class TTableTest {
             00 00 00 00
             -1 00 -1 00
         """.toGameState(1)
-        val table = TTable(state, 1)
+        val hashMaker = ZobristHash(state.width, state.height)
+        val table = TTable(hashMaker, 1)
         val move = Move(-1,1,1,1,0,0)
 
         val firstAccess = table[state]

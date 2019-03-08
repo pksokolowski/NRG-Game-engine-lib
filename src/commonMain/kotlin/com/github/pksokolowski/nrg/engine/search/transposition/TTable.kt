@@ -3,9 +3,8 @@ package com.github.pksokolowski.nrg.engine.search.transposition
 import com.github.pksokolowski.nrg.engine.GameState
 
 @ExperimentalUnsignedTypes
-class TTable(gameState: GameState, val length: Int) {
+class TTable(private val hashMaker: HashMaker, val length: Int) {
     private val data = Array<TTableEntry?>(length) { null }
-    private val hashMaker = ZobristHash(gameState.width, gameState.height)
 
     operator fun get(gameState: GameState): TTableEntry {
         val hash = hashMaker.hashOf(gameState)

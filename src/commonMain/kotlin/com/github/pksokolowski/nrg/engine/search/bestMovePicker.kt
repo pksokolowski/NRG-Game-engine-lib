@@ -3,6 +3,7 @@ package com.github.pksokolowski.nrg.engine.search
 import com.github.pksokolowski.nrg.engine.GameState
 import com.github.pksokolowski.nrg.engine.Move
 import com.github.pksokolowski.nrg.engine.search.transposition.TTable
+import com.github.pksokolowski.nrg.engine.search.transposition.ZobristHash
 import com.github.pksokolowski.nrg.engine.utils.getDeadline
 import com.github.pksokolowski.nrg.engine.utils.isDeadlineCrossed
 
@@ -19,7 +20,8 @@ fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, rand
     if(randomize) possibleMoves.shuffle()
     possibleMoves.orderMoves(player)
 
-    val tTable = TTable(state, 70000)
+    val hashMaker = ZobristHash(state.width, state.height)
+    val tTable = TTable(hashMaker, 70000)
 
     var depthReached = 0
 
