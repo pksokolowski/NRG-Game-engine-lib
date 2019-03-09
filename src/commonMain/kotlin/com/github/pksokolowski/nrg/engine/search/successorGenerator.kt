@@ -5,7 +5,6 @@ import com.github.pksokolowski.nrg.engine.Move
 import com.github.pksokolowski.nrg.engine.motion.*
 import com.github.pksokolowski.nrg.engine.motion.MotionDirections.*
 import com.github.pksokolowski.nrg.engine.motion.MoveTypes.*
-import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY
 import kotlin.math.abs
 
 fun possibleMovesFrom(state: GameState): MutableList<Move> {
@@ -27,6 +26,8 @@ fun possibleMovesFrom(state: GameState): MutableList<Move> {
         val energy = abs(value)
 
         when (energy) {
+            0 -> {
+            }
             1 -> {
                 add(FORWARD, NON_CAPTURE)
                 presetCapturesForward(::add)
@@ -40,11 +41,11 @@ fun possibleMovesFrom(state: GameState): MutableList<Move> {
                 presetCapturesForwardAndBackwards(::add)
                 presetVerticalAndHorizontal(::add, 1..2)
             }
-            MAX_ENERGY -> {
+            // when adding further energy levels, also update the
+            // move ordering to use proper max energy value
+            else -> {
                 presetVerticalAndHorizontal(::add, 1..2)
                 presetDiagonal(::add, 1..4)
-            }
-            else -> {
             }
         }
     }
