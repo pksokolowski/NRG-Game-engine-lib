@@ -9,19 +9,16 @@ class TTable(private val hashMaker: HashMaker, length: Int) {
 
     operator fun get(gameState: GameState): TTableEntry {
         val hash = hashMaker.hashOf(gameState)
-        val index = indexOf(hash)
+        val index = (hash % length).toInt()
 
-        return matchOrNull(index, hash)
-            ?: create(index, hash)
+        fun matchOrNull() = data[index]?.let {
+            if (it.hash == hash) it else null
+        }
+
+        fun create() = TTableEntry.getEmpty(hash).also {
+            data[index] = it
+        }
+
+        return matchOrNull() ?: create()
     }
-
-    private fun matchOrNull(index: Int, hash: ULong) = data[index]?.let {
-        if (it.hash == hash) it else null
-    }
-
-    private fun create(index: Int, hash: ULong) = TTableEntry.getEmpty(hash).also {
-        data[index] = it
-    }
-
-    private fun indexOf(hash: ULong) = (hash % length).toInt()
 }
