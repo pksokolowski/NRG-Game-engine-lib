@@ -7,13 +7,16 @@ import com.github.pksokolowski.nrg.engine.Move
  * Mutability is necessary to avoid recreation of the objects on index collisions.
  */
 @ExperimentalUnsignedTypes
-class TTableEntry(
-    var hash: ULong,
-    var bestScore: Int,
-    var bestMove: Move?,
-    var depth: Int,
-    var type: NodeType
-) {
+class TTableEntry(var hash: ULong) {
+    var bestScore: Int = 0
+        private set
+    var bestMove: Move? = null
+        private set
+    var depth: Int = 0
+        private set
+    var type: NodeType = NodeType.EMPTY
+        private set
+
     fun update(bestScore: Int, a: Int, b: Int, bestMove: Move, depth: Int) {
         this.bestScore = bestScore
         // only store best moves for lower and exact nodes
@@ -33,7 +36,4 @@ class TTableEntry(
         }
     }
 
-    companion object {
-        fun getEmpty(hash: ULong) = TTableEntry(hash, 0, null, 0, NodeType.EMPTY)
-    }
 }

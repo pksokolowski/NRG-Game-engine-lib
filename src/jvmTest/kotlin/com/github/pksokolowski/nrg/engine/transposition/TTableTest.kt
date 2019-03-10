@@ -26,7 +26,7 @@ class TTableTest {
         val move = Move(-1, 1, 1, 1, 0, 0)
 
         val firstAccess = table[state]
-        firstAccess.bestMove = move
+        firstAccess.update(0, 0,1, move, 9)
         val secondAccess = table[state]
 
         assertEquals(move, secondAccess.bestMove)
@@ -49,7 +49,7 @@ class TTableTest {
         val move = Move(-1, 1, 1, 1, 0, 0)
 
         val firstAccess = table[state]
-        firstAccess.bestMove = move
+        firstAccess.update(0, 0,1, move, 9)
         val secondAccess = table[state2]
 
         assertEquals(null, secondAccess.bestMove)

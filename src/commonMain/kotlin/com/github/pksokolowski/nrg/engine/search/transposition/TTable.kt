@@ -15,7 +15,7 @@ class TTable(private val hashMaker: HashMaker, length: Int) {
             if (it.hash == hash) it else null
         }
 
-        fun create() = TTableEntry.getEmpty(hash).also {
+        fun create() = TTableEntry(hash).also {
             data[index] = it
         }
 
