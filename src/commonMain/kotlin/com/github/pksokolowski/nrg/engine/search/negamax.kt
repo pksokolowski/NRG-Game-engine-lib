@@ -24,7 +24,7 @@ fun negamax(state: GameState, depthLeft: Int, alpha: Int, beta: Int, deadline: L
         if(newA >= newB) return ttEntry.bestScore
     }
 
-    val moves = possibleMovesFromOrNull(state)?.orderMoves(player)
+    val moves = possibleMovesFromOrNull(state)?.orderMoves(player, ttEntry.bestMove)
         ?: return evaluate()
 
     var bestScore = Int.MIN_VALUE + 1
