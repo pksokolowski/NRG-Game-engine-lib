@@ -20,15 +20,15 @@ class TTableEntry(var hash: ULong) {
     fun update(bestScore: Int, a: Int, b: Int, bestMove: Move, depth: Int) {
         this.bestScore = bestScore
         // only store best moves for lower and exact nodes
-        this.bestMove = if (bestScore < b) bestMove else null
+        this.bestMove = if (bestScore > a) bestMove else null
         this.depth = depth
 
         type = when {
             bestScore <= a -> {
-                NodeType.LOWER
+                NodeType.UPPER
             }
             bestScore >= b -> {
-                NodeType.UPPER
+                NodeType.LOWER
             }
             else -> {
                 NodeType.EXACT

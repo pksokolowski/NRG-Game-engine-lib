@@ -41,7 +41,7 @@ fun negamax(state: GameState, depthLeft: Int, alpha: Int, beta: Int, deadline: L
         if (newA >= newB) break
     }
 
-    ttEntry.update(bestScore, newA, newB, bestMove, depthLeft)
+    ttEntry.update(bestScore, alpha, beta, bestMove, depthLeft)
 
     return bestScore
 }
