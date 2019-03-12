@@ -10,31 +10,25 @@ import com.github.pksokolowski.nrg.engine.utils.isDeadlineCrossed
 class BestMoveData(val move: Move?, val depthReached: Int)
 
 fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, randomize: Boolean = false): BestMoveData {
-    val deadline = getDeadline(timeLimit)
-    var chosenMove: Move? = null
-
-    val player = state.playerActive
-    val possibleMoves = possibleMovesFromOrNull(state)
-            ?: return BestMoveData(null, 0)
-
-    if(randomize) possibleMoves.shuffle()
-    possibleMoves.orderMoves(player)
-
-    val hashMaker = ZobristHash(state.width, state.height)
-    val tTable = TTable(hashMaker, 70000)
+    val possibleMoves = getPossibleMovesAtRoot(state, randomize)
+        ?: return BestMoveData(null, 0)
 
     var depthReached = 0
+    var chosenMove: Move? = null
+    val deadline = getDeadline(timeLimit)
+    val tTable = getTranspositionTable(state)
 
-    for(i in 1..depth){
-        val bestMove = pickBestMoveFullDepth(player, possibleMoves, state, i, deadline, tTable)
-        if(isDeadlineCrossed(deadline)) break
+    for (i in 1..depth) {
+        val bestMove = pickBestMove(possibleMoves, state, i, deadline, tTable)
+        if (isDeadlineCrossed(deadline)) break
         depthReached = i
         chosenMove = bestMove
     }
     return BestMoveData(chosenMove, depthReached)
 }
 
-private fun pickBestMoveFullDepth(player: Int, possibleMoves: List<Move>, state: GameState, depth: Int, deadline: Long? = null, tTable: TTable): Move? {
+private fun pickBestMove(possibleMoves: List<Move>, state: GameState, depth: Int, deadline: Long? = null, tTable: TTable): Move? {
+    val player = state.playerActive
     var bestMove = possibleMoves[0]
     var bestScore = Int.MIN_VALUE + 1
 
@@ -50,4 +44,19 @@ private fun pickBestMoveFullDepth(player: Int, possibleMoves: List<Move>, state:
     }
 
     return bestMove
+}
+
+private fun getTranspositionTable(state: GameState): TTable {
+    val hashMaker = ZobristHash(state.width, state.height)
+    return TTable(hashMaker, 70000)
+}
+
+private fun getPossibleMovesAtRoot(state: GameState, randomize: Boolean): List<Move>? {
+    val player = state.playerActive
+    val possibleMoves = possibleMovesFromOrNull(state)
+        ?: return null
+
+    if (randomize) possibleMoves.shuffle()
+    possibleMoves.orderMoves(player)
+    return possibleMoves
 }
