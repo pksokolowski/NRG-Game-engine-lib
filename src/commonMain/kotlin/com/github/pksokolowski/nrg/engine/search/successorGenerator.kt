@@ -29,7 +29,7 @@ fun possibleMovesFrom(state: GameState): MutableList<Move> {
             0 -> {
             }
             1 -> {
-                add(FORWARD, NON_CAPTURE)
+                add(FORWARD, NON_CAPTURE, 1..2)
                 presetCapturesForward(::add)
             }
             2 -> {
@@ -39,13 +39,13 @@ fun possibleMovesFrom(state: GameState): MutableList<Move> {
             }
             3 -> {
                 presetCapturesForwardAndBackwards(::add)
-                presetVerticalAndHorizontal(::add, 1..2)
+                presetVerticalAndHorizontal(::add, 1..3)
             }
             // when adding further energy levels, also update the
             // move ordering to use proper max energy value
             else -> {
-                presetVerticalAndHorizontal(::add, 1..2)
-                presetDiagonal(::add, 1..4)
+                presetVerticalAndHorizontal(::add, 1..3)
+                presetDiagonal(::add, 1..3)
             }
         }
     }
