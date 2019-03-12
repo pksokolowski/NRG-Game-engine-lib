@@ -93,7 +93,8 @@ class SuccessorFunctionTest {
         }
         val state = GameState(matrix, 1)
         val possibleMoves = listOf(
-            Move(1, 2, 2, 2, 3, 0)
+            Move(1, 2, 2, 2, 3, 0),
+            Move(1, 2, 2, 2, 4, 0)
         )
 
         assertTrue(possibleMoves.containsAll(possibleMovesFrom(state)))
@@ -107,7 +108,8 @@ class SuccessorFunctionTest {
         }
         val state = GameState(matrix, 2)
         val possibleMoves = listOf(
-            Move(-1, 2, 7, 2, 6, 0)
+            Move(-1, 2, 7, 2, 6, 0),
+            Move(-1, 2, 7, 2, 5, 0)
         )
 
         assertTrue(possibleMoves.containsAll(possibleMovesFrom(state)))
@@ -123,6 +125,7 @@ class SuccessorFunctionTest {
         val state = GameState(matrix, 1)
         val possibleMoves = listOf(
             Move(1, 3, 3, 3, 4, 0),
+            Move(1, 3, 3, 3, 5, 0),
             Move(1, 3, 3, 2, 4, -2),
             Move(1, 3, 3, 4, 4, -1)
         )
@@ -139,8 +142,10 @@ class SuccessorFunctionTest {
         val possibleMoves = listOf(
             Move(3, 0, 0, 0, 1, 0),
             Move(3, 0, 0, 0, 2, 0),
+            Move(3, 0, 0, 0, 3, 0),
             Move(3, 0, 0, 1, 0, 0),
-            Move(3, 0, 0, 2, 0, 0)
+            Move(3, 0, 0, 2, 0, 0),
+            Move(3, 0, 0, 3, 0, 0)
         )
 
         assertTrue(possibleMoves.containsAll(possibleMovesFrom(state)))
