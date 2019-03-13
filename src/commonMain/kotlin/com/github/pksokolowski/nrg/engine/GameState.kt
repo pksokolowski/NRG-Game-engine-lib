@@ -5,17 +5,14 @@ import com.github.pksokolowski.nrg.engine.utils.bound
 import kotlin.math.abs
 
 class GameState(private val board: Array<IntArray>, movesCount: Int = 0) {
-
-    fun copy() = GameState(getBoard(), movesCount)
-
-    fun getBoard() = Array(board.size) { board[it].copyOf() }
-
     var movesCount: Int = movesCount
         private set
+
     val playerActive: Int
         get() {
             return if (movesCount % 2 == 0) -1 else 1
         }
+
     val width = board.size
     val height = board.getOrNull(0)?.size ?: 0
 
@@ -43,6 +40,10 @@ class GameState(private val board: Array<IntArray>, movesCount: Int = 0) {
         this[move.x2, move.y2] = move.capture
         movesCount--
     }
+
+    fun getBoard() = Array(board.size) { board[it].copyOf() }
+
+    fun copy() = GameState(getBoard(), movesCount)
 
     fun withMove(move: Move) = copy().apply { applyMove(move) }
 }
