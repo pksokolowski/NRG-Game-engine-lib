@@ -16,7 +16,12 @@ kotlin {
     // For Linux, should be changed to e.g. linuxX64
     // For MacOS, should be changed to e.g. macosX64
     // For Windows, should be changed to e.g. mingwX64
-    mingwX64("mingw")
+    mingwX64("mingw") {
+        compilations.main {
+            // Comment to generate Kotlin/Native library (KLIB) instead of executable file:
+            outputKinds("dynamic")
+        }
+    }
     sourceSets {
         commonMain {
             dependencies {
