@@ -4,7 +4,7 @@ import com.github.pksokolowski.nrg.engine.GameState
 
 fun evaluate(state: GameState): Int {
     var sum = 0
-    for (x in 0 until state.width) for (y in 0 until state.height) {
+    state.forAllSquares { x, y ->
         sum += state[x, y]
     }
     return sum

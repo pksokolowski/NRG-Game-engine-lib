@@ -11,14 +11,14 @@ fun possibleMovesFrom(state: GameState): MutableList<Move> {
     val moves = mutableListOf<Move>()
     val player = state.playerActive
 
-    for (x in 0 until state.width) for (y in 0 until state.height) {
+    state.forAllSquares iteration@{ x, y ->
         // skip empty squares
         val value = state[x, y]
-        if (value == 0) continue
+        if (value == 0) return@iteration
 
         // skip pieces of the other player
         val owner = if (value > 0) 1 else -1
-        if (owner != player) continue
+        if (owner != player) return@iteration
 
         fun add(direction: MotionDirections, type: MoveTypes, stepsRange: IntRange = 1..1) =
             addToList(state, player, moves, x, y, direction, type, stepsRange)

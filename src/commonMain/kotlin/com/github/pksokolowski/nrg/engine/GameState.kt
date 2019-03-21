@@ -46,4 +46,10 @@ class GameState(private val board: Array<IntArray>, movesCount: Int = 0) {
     fun copy() = GameState(getBoard(), movesCount)
 
     fun withMove(move: Move) = copy().apply { applyMove(move) }
+
+    inline fun forAllSquares(block: (x: Int, y: Int) -> Unit) {
+        for(x in 0 until width) for(y in 0 until height){
+            block(x, y)
+        }
+    }
 }
