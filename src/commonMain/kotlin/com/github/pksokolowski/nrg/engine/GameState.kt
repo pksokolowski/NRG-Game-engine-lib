@@ -5,24 +5,16 @@ import com.github.pksokolowski.nrg.engine.utils.bound
 import kotlin.math.abs
 
 class GameState(private val board: Array<IntArray>, movesCount: Int = 0) {
-    var movesCount: Int = movesCount
-        private set
-
-    val playerActive: Int
-        get() {
-            return if (movesCount % 2 == 0) -1 else 1
-        }
-
     val width = board.size
     val height = board.getOrNull(0)?.size ?: 0
+    var movesCount: Int = movesCount; private set
+    val playerActive: Int get() = if (movesCount % 2 == 0) -1 else 1
 
     private operator fun set(x: Int, y: Int, value: Int) {
         board[x][y] = value
     }
 
-    operator fun get(x: Int, y: Int): Int {
-        return board[x][y]
-    }
+    operator fun get(x: Int, y: Int) =  board[x][y]
 
     internal fun applyMove(move: Move) {
         require(this[move.x1, move.y1] != 0) { "Attempted to move a nonexistent piece." }
@@ -51,5 +43,21 @@ class GameState(private val board: Array<IntArray>, movesCount: Int = 0) {
         for(x in 0 until width) for(y in 0 until height){
             block(x, y)
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is GameState) return false
+
+        if (!board.contentDeepEquals(other.board)) return false
+        if (movesCount != other.movesCount) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = board.contentDeepHashCode()
+        result = 31 * result + movesCount
+        return result
     }
 }
