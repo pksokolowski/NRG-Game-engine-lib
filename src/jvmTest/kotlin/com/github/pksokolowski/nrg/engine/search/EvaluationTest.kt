@@ -1,6 +1,7 @@
 package com.github.pksokolowski.nrg.engine.search
 
 import com.github.pksokolowski.nrg.engine.GameState
+import com.github.pksokolowski.nrg.engine.utils.MAX_SCORE
 import com.github.pksokolowski.nrg.engine.utils.makeMatrix
 import com.github.pksokolowski.nrg.engine.utils.toGameState
 import kotlin.test.Test
@@ -15,7 +16,7 @@ class EvaluationTest {
         }
         val state = GameState(matrix, 1)
 
-        assertEquals(4, evaluate(state))
+        assertEquals(MAX_SCORE - state.movesCount, evaluate(state))
     }
 
     @Test

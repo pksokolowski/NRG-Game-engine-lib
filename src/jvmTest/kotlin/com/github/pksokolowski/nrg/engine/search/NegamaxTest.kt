@@ -4,6 +4,7 @@ import com.github.pksokolowski.nrg.engine.GameState
 import com.github.pksokolowski.nrg.engine.search.transposition.TTable
 import com.github.pksokolowski.nrg.engine.search.transposition.ZobristHash
 import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY
+import com.github.pksokolowski.nrg.engine.utils.MAX_SCORE
 import com.github.pksokolowski.nrg.engine.utils.makeMatrix
 import com.github.pksokolowski.nrg.engine.utils.toGameState
 import kotlin.test.Test
@@ -19,7 +20,7 @@ class NegamaxTest {
         }
         val state = GameState(matrix, 0)
         val score = negamax(state, 1)
-        assertEquals(4, score)
+        assertEquals(MAX_SCORE - state.movesCount, score)
     }
 
     @Test
@@ -34,13 +35,13 @@ class NegamaxTest {
     }
 
     @Test
-    fun `returns score of MAX_ENERGY value when plus player takes all into one piece`() {
+    fun `returns score of (MAX_SCORE - total moves to victory (4) ) value when plus player takes all into one piece`() {
         val state = """
             +1 +2
             -1 -1
         """.toGameState(1)
         val score = negamax(state, 3)
-        assertEquals(MAX_ENERGY, score)
+        assertEquals(MAX_SCORE - 4, score)
     }
 
     private fun negamax(state: GameState, depth: Int, timeLimit: Long = Long.MAX_VALUE): Int {
