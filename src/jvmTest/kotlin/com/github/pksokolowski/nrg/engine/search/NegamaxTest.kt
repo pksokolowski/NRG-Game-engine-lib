@@ -1,7 +1,6 @@
-package com.github.pksokolowski.nrg.engine
+package com.github.pksokolowski.nrg.engine.search
 
 import com.github.pksokolowski.nrg.engine.GameState
-import com.github.pksokolowski.nrg.engine.search.negamax
 import com.github.pksokolowski.nrg.engine.search.transposition.TTable
 import com.github.pksokolowski.nrg.engine.search.transposition.ZobristHash
 import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY

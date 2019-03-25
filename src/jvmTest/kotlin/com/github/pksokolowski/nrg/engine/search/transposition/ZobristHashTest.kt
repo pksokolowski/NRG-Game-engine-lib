@@ -1,6 +1,5 @@
-package com.github.pksokolowski.nrg.engine.transposition
+package com.github.pksokolowski.nrg.engine.search.transposition
 
-import com.github.pksokolowski.nrg.engine.search.transposition.ZobristHash
 import com.github.pksokolowski.nrg.engine.utils.toGameState
 import kotlin.test.Test
 import kotlin.test.assertEquals

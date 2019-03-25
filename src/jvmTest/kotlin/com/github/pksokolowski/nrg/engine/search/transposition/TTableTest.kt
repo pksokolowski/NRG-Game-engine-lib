@@ -1,10 +1,7 @@
-package com.github.pksokolowski.nrg.engine.transposition
+package com.github.pksokolowski.nrg.engine.search.transposition
 
 import com.github.pksokolowski.nrg.engine.GameState
 import com.github.pksokolowski.nrg.engine.Move
-import com.github.pksokolowski.nrg.engine.search.transposition.HashMaker
-import com.github.pksokolowski.nrg.engine.search.transposition.TTable
-import com.github.pksokolowski.nrg.engine.search.transposition.ZobristHash
 import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY
 import com.github.pksokolowski.nrg.engine.utils.toGameState
 import kotlin.math.pow

@@ -1,4 +1,4 @@
-package com.github.pksokolowski.nrg.engine
+package com.github.pksokolowski.nrg.engine.utils
 
 import com.github.pksokolowski.nrg.engine.utils.deserialize
 import com.github.pksokolowski.nrg.engine.utils.serialize

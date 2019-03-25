@@ -1,8 +1,7 @@
-package com.github.pksokolowski.nrg.engine
+package com.github.pksokolowski.nrg.engine.search
 
 import com.github.pksokolowski.nrg.engine.GameState
 import com.github.pksokolowski.nrg.engine.Move
-import com.github.pksokolowski.nrg.engine.search.possibleMovesFrom
 import com.github.pksokolowski.nrg.engine.utils.makeMatrix
 import com.github.pksokolowski.nrg.engine.utils.toGameState
 import kotlin.test.Test

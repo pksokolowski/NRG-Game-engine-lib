@@ -1,8 +1,6 @@
-package com.github.pksokolowski.nrg.engine.transposition
+package com.github.pksokolowski.nrg.engine.search.transposition
 
 import com.github.pksokolowski.nrg.engine.Move
-import com.github.pksokolowski.nrg.engine.search.transposition.NodeType
-import com.github.pksokolowski.nrg.engine.search.transposition.TTableEntry
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.fail

@@ -1,8 +1,6 @@
-package com.github.pksokolowski.nrg.engine
+package com.github.pksokolowski.nrg.engine.search
 
 import com.github.pksokolowski.nrg.engine.GameState
-import com.github.pksokolowski.nrg.engine.search.evaluate
-import com.github.pksokolowski.nrg.engine.search.evaluateForActivePlayer
 import com.github.pksokolowski.nrg.engine.utils.makeMatrix
 import com.github.pksokolowski.nrg.engine.utils.toGameState
 import kotlin.test.Test
