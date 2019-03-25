@@ -10,16 +10,19 @@ import com.github.pksokolowski.nrg.engine.utils.isDeadlineCrossed
 class BestMoveData(val move: Move?, val depthReached: Int)
 
 fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, randomize: Boolean = false): BestMoveData {
-    val possibleMoves = getPossibleMovesAtRoot(state, randomize)
+    // work on a copy, so the library user can still enjoy a practically immutable object
+    val stateCopy = state.copy()
+
+    val possibleMoves = getPossibleMovesAtRoot(stateCopy, randomize)
         ?: return BestMoveData(null, 0)
 
     var depthReached = 0
     var chosenMove: Move? = null
     val deadline = getDeadline(timeLimit)
-    val tTable = getTranspositionTable(state)
+    val tTable = getTranspositionTable(stateCopy)
 
     for (i in 1..depth) {
-        val bestMove = pickBestMove(possibleMoves, state, i, deadline, tTable)
+        val bestMove = pickBestMove(possibleMoves, stateCopy, i, deadline, tTable)
         if (isDeadlineCrossed(deadline)) break
         depthReached = i
         chosenMove = bestMove
