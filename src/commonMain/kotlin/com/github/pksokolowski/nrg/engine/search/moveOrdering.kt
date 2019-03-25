@@ -15,7 +15,7 @@ fun MutableList<Move>.orderMoves(player: Int, bestMove: Move? = null): MutableLi
 }
 
 private fun MutableList<Move>.intSort(player: Int): MutableList<Move> {
-    val captures = Array<MutableList<Move>?>(MAX_ENERGY * 2 + 1) { null }
+    val captures = Array<MutableList<Move>?>(MAX_ENERGY + 1) { null }
     forEach {
         val priority = -player * it.capture
         val assignedIndex = priority.bound(0, MAX_ENERGY)
