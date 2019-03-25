@@ -1,6 +1,10 @@
 package com.github.pksokolowski.nrg.engine
 
+import com.github.pksokolowski.nrg.engine.search.evalNegatives
+import com.github.pksokolowski.nrg.engine.search.evalPositives
 import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY
+import com.github.pksokolowski.nrg.engine.utils.MAX_SCORE
+import com.github.pksokolowski.nrg.engine.utils.MIN_SCORE
 import com.github.pksokolowski.nrg.engine.utils.bound
 import kotlin.math.abs
 
@@ -16,6 +20,25 @@ class GameState(private val board: Array<IntArray>, movesCount: Int = 0) {
 
     operator fun get(x: Int, y: Int) =  board[x][y]
 
+    private var evalPos = evalPositives(this)
+    private var evalNeg = evalNegatives(this)
+
+    fun getEvaluation(): Int{
+        if (evalPos == 0) return MIN_SCORE + this.movesCount
+        if (evalNeg == 0) return MAX_SCORE - this.movesCount
+        return evalPos + evalNeg
+    }
+    private fun dispatchAddition(value: Int){
+        if(value > 0){
+            evalPos += value
+        }else if (value < 0) evalNeg += value
+    }
+    private fun dispatchSubtraction(value: Int){
+        if(value > 0){
+            evalPos -= value
+        }else if (value < 0) evalNeg -= value
+    }
+
     internal fun applyMove(move: Move) {
         require(this[move.x1, move.y1] != 0) { "Attempted to move a nonexistent piece." }
 
@@ -23,10 +46,18 @@ class GameState(private val board: Array<IntArray>, movesCount: Int = 0) {
         this[move.x1, move.y1] = 0
         this[move.x2, move.y2] = (move.movedPiece + abs(move.capture) * player).bound(-MAX_ENERGY, MAX_ENERGY)
         movesCount++
+
+        dispatchSubtraction(move.movedPiece)
+        dispatchSubtraction(move.capture)
+        dispatchAddition(this[move.x2, move.y2])
     }
 
     internal fun undoMove(move: Move) {
         require(this[move.x2, move.y2] != 0) { "Attempted to undo a move of a nonexistent piece." }
+
+        dispatchSubtraction(this[move.x2, move.y2])
+        dispatchAddition(move.movedPiece)
+        dispatchAddition(move.capture)
 
         this[move.x1, move.y1] = move.movedPiece
         this[move.x2, move.y2] = move.capture

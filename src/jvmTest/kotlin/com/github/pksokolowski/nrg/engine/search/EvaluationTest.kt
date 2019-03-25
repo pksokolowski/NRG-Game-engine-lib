@@ -17,6 +17,7 @@ class EvaluationTest {
         val state = GameState(matrix, 1)
 
         assertEquals(MAX_SCORE - state.movesCount, evaluate(state))
+        assertEquals(state.getEvaluation(), evaluate(state))
     }
 
     @Test
@@ -29,6 +30,7 @@ class EvaluationTest {
         val state = GameState(matrix, 1)
 
         assertEquals(1, evaluate(state))
+        assertEquals(state.getEvaluation(), evaluate(state))
     }
 
     @Test
@@ -42,6 +44,7 @@ class EvaluationTest {
         val state = GameState(matrix, 0)
 
         assertEquals(3, evaluateForActivePlayer(state))
+        assertEquals(state.getEvaluation(), evaluate(state))
     }
 
     @Test
@@ -58,5 +61,6 @@ class EvaluationTest {
         """.toGameState(1)
 
         assertEquals(-4, evaluateForActivePlayer(state))
+        assertEquals(state.getEvaluation(), evaluate(state))
     }
 }

@@ -20,4 +20,31 @@ fun evaluate(state: GameState): Int {
     return sumPositive + sumNegative
 }
 
-fun evaluateForActivePlayer(state: GameState) = evaluate(state) * state.playerActive
+fun evaluateForActivePlayer(state: GameState): Int{
+    //if(evaluate(state) != state.getEvaluation()) throw RuntimeException("fsfsef")
+    return  state.getEvaluation() * state.playerActive
+}
+
+fun evalPositives(state: GameState): Int {
+    var sumPositive = 0
+    state.forAllSquares { x, y ->
+        state[x, y].let {
+            when {
+                it > 0 -> sumPositive += it
+            }
+        }
+    }
+   return sumPositive
+}
+
+fun evalNegatives(state: GameState): Int {
+    var sumNegative = 0
+    state.forAllSquares { x, y ->
+        state[x, y].let {
+            when {
+                it < 0 -> sumNegative += it
+            }
+        }
+    }
+    return sumNegative
+}
