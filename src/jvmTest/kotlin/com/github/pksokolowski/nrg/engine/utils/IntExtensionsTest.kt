@@ -1,6 +1,5 @@
 package com.github.pksokolowski.nrg.engine.utils
 
-import com.github.pksokolowski.nrg.engine.utils.bound
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

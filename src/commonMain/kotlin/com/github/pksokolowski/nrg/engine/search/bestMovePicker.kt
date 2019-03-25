@@ -4,6 +4,8 @@ import com.github.pksokolowski.nrg.engine.GameState
 import com.github.pksokolowski.nrg.engine.Move
 import com.github.pksokolowski.nrg.engine.search.transposition.TTable
 import com.github.pksokolowski.nrg.engine.search.transposition.ZobristHash
+import com.github.pksokolowski.nrg.engine.utils.MAX_SCORE
+import com.github.pksokolowski.nrg.engine.utils.MIN_SCORE
 import com.github.pksokolowski.nrg.engine.utils.getDeadline
 import com.github.pksokolowski.nrg.engine.utils.isDeadlineCrossed
 
@@ -33,11 +35,11 @@ fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, rand
 private fun pickBestMove(possibleMoves: List<Move>, state: GameState, depth: Int, deadline: Long? = null, tTable: TTable): Move? {
     val player = state.playerActive
     var bestMove = possibleMoves[0]
-    var bestScore = Int.MIN_VALUE + 1
+    var bestScore = MIN_SCORE
 
     for (move in possibleMoves) {
         state.applyMove(move)
-        val score = -negamax(state, depth - 1, -Int.MAX_VALUE, -bestScore, deadline, -player, tTable)
+        val score = -negamax(state, depth - 1, -MAX_SCORE, -bestScore, deadline, -player, tTable)
         state.undoMove(move)
 
         if (score > bestScore) {
