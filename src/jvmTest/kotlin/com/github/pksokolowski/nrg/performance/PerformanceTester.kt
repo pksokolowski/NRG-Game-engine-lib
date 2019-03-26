@@ -12,6 +12,7 @@ fun main() {
         3 -> runs benchmark in legacy mode, first 3 tests in this case, any number works
         0/6 -> runs test number 0 with depth 6. Any n/m works as long as test n exists
         q -> exit the app
+        To repeat last command, press enter
         ----------------------------------
     """.trimIndent()
     )
@@ -19,9 +20,17 @@ fun main() {
     val benchmarkController =
         BenchmarkController(BenchmarkService())
 
+    var lastCommand: Command = Unrecognized
+
     loop@ while (true) {
         print(">")
-        val cmd = readLine()?.toCommand() ?: continue
+        var cmd = readLine()?.toCommand() ?: continue
+
+        if (cmd is RepeatLast) {
+            cmd = lastCommand
+        } else {
+            lastCommand = cmd
+        }
 
         when (cmd) {
             is Benchmark -> {
@@ -46,9 +55,11 @@ sealed class Command {
     data class SingleTest(val testNum: Int, val depth: Int) : Command()
     object Quit : Command()
     object Unrecognized : Command()
+    object RepeatLast : Command()
 }
 
 private fun String.toCommand(): Command {
+    if (this == "") return RepeatLast
     if (this == "q") return Quit
     if (this.matches("\\d+\$".toRegex())) {
         val legacyCode = this.toInt()
