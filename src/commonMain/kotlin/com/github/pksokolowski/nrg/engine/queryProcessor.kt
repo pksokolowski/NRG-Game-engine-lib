@@ -2,7 +2,6 @@ package com.github.pksokolowski.nrg.engine
 
 import com.github.pksokolowski.nrg.engine.Status.*
 import com.github.pksokolowski.nrg.engine.Status.FINISHED.Player.*
-import com.github.pksokolowski.nrg.engine.search.evaluate
 import com.github.pksokolowski.nrg.engine.search.possibleMovesFrom
 import com.github.pksokolowski.nrg.engine.search.pickBestMoveFrom
 import com.github.pksokolowski.nrg.engine.utils.getInitialGameState
@@ -33,7 +32,7 @@ private fun GameState.getStatus(possibleMoves: List<Move>) = if (possibleMoves.i
 /**
  * returns game result from the human player's perspective. Hence -evaluate()...
  */
-private fun getEndGameStatus(state: GameState) = (-evaluate(state)).let {
+private fun getEndGameStatus(state: GameState) = (-state.evaluate()).let {
     val winner = when {
         it > 0 -> HUMAN
         it < 0 -> AI

@@ -1,4 +1,4 @@
-package com.github.pksokolowski.nrg.engine.search
+package com.github.pksokolowski.nrg.engine.search.evaluation
 
 import com.github.pksokolowski.nrg.engine.GameState
 import com.github.pksokolowski.nrg.engine.utils.MAX_SCORE
@@ -16,8 +16,7 @@ class EvaluationTest {
         }
         val state = GameState(matrix, 1)
 
-        assertEquals(MAX_SCORE - state.movesCount, evaluate(state))
-        assertEquals(state.getEvaluation(), evaluate(state))
+        assertEquals(MAX_SCORE - state.movesCount, state.evaluate())
     }
 
     @Test
@@ -29,8 +28,7 @@ class EvaluationTest {
         }
         val state = GameState(matrix, 1)
 
-        assertEquals(1, evaluate(state))
-        assertEquals(state.getEvaluation(), evaluate(state))
+        assertEquals(1, state.evaluate())
     }
 
     @Test
@@ -43,8 +41,7 @@ class EvaluationTest {
         }
         val state = GameState(matrix, 0)
 
-        assertEquals(3, evaluateForActivePlayer(state))
-        assertEquals(state.getEvaluation(), evaluate(state))
+        assertEquals(3, state.evaluateForActivePlayer())
     }
 
     @Test
@@ -60,7 +57,6 @@ class EvaluationTest {
             -3 00 00 00 +1 00 00 +2
         """.toGameState(1)
 
-        assertEquals(-4, evaluateForActivePlayer(state))
-        assertEquals(state.getEvaluation(), evaluate(state))
+        assertEquals(-4, state.evaluateForActivePlayer())
     }
 }

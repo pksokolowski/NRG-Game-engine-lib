@@ -12,9 +12,10 @@ class GameState(
     var movesCount: Int = movesCount; private set
     val playerActive: Int get() = if (movesCount % 2 == 0) -1 else 1
 
-    private val evaluator = evaluatorFactory.getInstance(this)
+    private val evaluator = evaluatorFactory.getEvaluator(this)
 
-    fun getEvaluation() = evaluator.getEvaluation()
+    fun evaluate() = evaluator.evaluate()
+    fun evaluateForActivePlayer() = evaluator.evaluate() * playerActive
 
     private operator fun set(x: Int, y: Int, value: Int) {
         board[x][y] = value

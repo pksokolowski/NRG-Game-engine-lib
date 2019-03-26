@@ -1,8 +1,5 @@
 package com.github.pksokolowski.nrg.engine
 
-import com.github.pksokolowski.nrg.engine.GameState
-import com.github.pksokolowski.nrg.engine.search.evaluate
-import com.github.pksokolowski.nrg.engine.Move
 import com.github.pksokolowski.nrg.engine.utils.makeMatrix
 import com.github.pksokolowski.nrg.engine.utils.toGameState
 import kotlin.test.Test
@@ -106,10 +103,10 @@ class GameStateTest {
         """.toGameState()
         val move = Move(1, 0, 0, 1, 1, -1)
 
-        val evaluationBefore = evaluate(state)
+        val evaluationBefore = state.evaluate()
         state.applyMove(move)
         state.undoMove(move)
-        val evaluationAfter = evaluate(state)
+        val evaluationAfter = state.evaluate()
 
         assertEquals(evaluationBefore, evaluationAfter)
     }
@@ -122,10 +119,10 @@ class GameStateTest {
         """.toGameState()
         val move = Move(-1, 1, 1, 0, 0, 1)
 
-        val evaluationBefore = evaluate(state)
+        val evaluationBefore = state.evaluate()
         state.applyMove(move)
         state.undoMove(move)
-        val evaluationAfter = evaluate(state)
+        val evaluationAfter = state.evaluate()
 
         assertEquals(evaluationBefore, evaluationAfter)
     }
@@ -138,10 +135,10 @@ class GameStateTest {
         """.toGameState(1)
         val move = Move(1, 0, 0, 1, 1, 1)
 
-        val evaluationBefore = evaluate(state)
+        val evaluationBefore = state.evaluate()
         state.applyMove(move)
         state.undoMove(move)
-        val evaluationAfter = evaluate(state)
+        val evaluationAfter = state.evaluate()
 
         assertEquals(evaluationBefore, evaluationAfter)
     }
@@ -154,10 +151,10 @@ class GameStateTest {
         """.toGameState()
         val move = Move(-1, 1, 1, 0, 0, -1)
 
-        val evaluationBefore = evaluate(state)
+        val evaluationBefore = state.evaluate()
         state.applyMove(move)
         state.undoMove(move)
-        val evaluationAfter = evaluate(state)
+        val evaluationAfter = state.evaluate()
 
         assertEquals(evaluationBefore, evaluationAfter)
     }

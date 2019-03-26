@@ -25,7 +25,7 @@ class QueryProcessorTest{
             00 +1 00
             00 00 -1
         """.toGameState()
-        val chosenMove = Move(-1, 2, 1, 1, 0, -1)
+        val chosenMove = Move(-1, 2, 1, 1, 0, 1)
 
         val query = EngineQuery(state, chosenMove, depthAllowed = 3)
         val response = play(query)
@@ -40,7 +40,7 @@ class QueryProcessorTest{
             +4 +1 00
             00 00 -1
         """.toGameState()
-        val chosenMove = Move(-1, 2, 1, 1, 0, -1)
+        val chosenMove = Move(-1, 2, 1, 1, 0, 1)
 
         val query = EngineQuery(state, chosenMove, depthAllowed = 3)
         val response = play(query)
