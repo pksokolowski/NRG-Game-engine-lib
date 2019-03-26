@@ -1,17 +1,18 @@
 package com.github.pksokolowski.nrg.engine
 
-import com.github.pksokolowski.nrg.engine.search.evaluatePlayerMateriel
-import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY
-import com.github.pksokolowski.nrg.engine.utils.MAX_SCORE
-import com.github.pksokolowski.nrg.engine.utils.MIN_SCORE
-import com.github.pksokolowski.nrg.engine.utils.bound
-import kotlin.math.abs
-
-class GameState(private val board: Array<IntArray>, movesCount: Int = 0) {
+import com.github.pksokolowski.nrg.engine.search.evaluation.IncrementalEvaluatorFactory
+class GameState(private val board: Array<IntArray>,
+                movesCount: Int = 0,
+                evaluatorFactory: IncrementalEvaluatorFactory = IncrementalEvaluatorFactory()
+) {
     val width = board.size
     val height = board.getOrNull(0)?.size ?: 0
     var movesCount: Int = movesCount; private set
     val playerActive: Int get() = if (movesCount % 2 == 0) -1 else 1
+
+    private val evaluator = evaluatorFactory.getInstance(this)
+
+    fun getEvaluation() = evaluator.getEvaluation()
 
     private operator fun set(x: Int, y: Int, value: Int) {
         board[x][y] = value
@@ -19,48 +20,24 @@ class GameState(private val board: Array<IntArray>, movesCount: Int = 0) {
 
     operator fun get(x: Int, y: Int) =  board[x][y]
 
-    private var evalPos = evaluatePlayerMateriel(this, 1)
-    private var evalNeg = evaluatePlayerMateriel(this, -1)
-
-    fun getEvaluation(): Int{
-        if (evalPos == 0) return MIN_SCORE + this.movesCount
-        if (evalNeg == 0) return MAX_SCORE - this.movesCount
-        return evalPos + evalNeg
-    }
-    private fun dispatchAddition(value: Int){
-        if(value > 0){
-            evalPos += value
-        }else if (value < 0) evalNeg += value
-    }
-    private fun dispatchSubtraction(value: Int){
-        if(value > 0){
-            evalPos -= value
-        }else if (value < 0) evalNeg -= value
-    }
-
     internal fun applyMove(move: Move) {
         require(this[move.x1, move.y1] != 0) { "Attempted to move a nonexistent piece." }
 
-        val player = if (move.movedPiece > 0) 1 else -1
         this[move.x1, move.y1] = 0
-        this[move.x2, move.y2] = (move.movedPiece + abs(move.capture) * player).bound(-MAX_ENERGY, MAX_ENERGY)
+        this[move.x2, move.y2] = move.resolveDestinationValue()
         movesCount++
 
-        dispatchSubtraction(move.movedPiece)
-        dispatchSubtraction(move.capture)
-        dispatchAddition(this[move.x2, move.y2])
+        evaluator apply move
     }
 
     internal fun undoMove(move: Move) {
         require(this[move.x2, move.y2] != 0) { "Attempted to undo a move of a nonexistent piece." }
 
-        dispatchSubtraction(this[move.x2, move.y2])
-        dispatchAddition(move.movedPiece)
-        dispatchAddition(move.capture)
-
         this[move.x1, move.y1] = move.movedPiece
         this[move.x2, move.y2] = move.capture
         movesCount--
+
+        evaluator undo move
     }
 
     fun getBoard() = Array(board.size) { board[it].copyOf() }
