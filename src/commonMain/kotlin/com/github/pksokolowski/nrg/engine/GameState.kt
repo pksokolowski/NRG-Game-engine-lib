@@ -1,9 +1,11 @@
 package com.github.pksokolowski.nrg.engine
 
 import com.github.pksokolowski.nrg.engine.search.evaluation.IncrementalEvaluatorFactory
-class GameState(private val board: Array<IntArray>,
-                movesCount: Int = 0,
-                evaluatorFactory: IncrementalEvaluatorFactory = IncrementalEvaluatorFactory()
+
+class GameState(
+    private val board: Array<IntArray>,
+    movesCount: Int = 0,
+    evaluatorFactory: IncrementalEvaluatorFactory = IncrementalEvaluatorFactory()
 ) {
     val width = board.size
     val height = board.getOrNull(0)?.size ?: 0
@@ -18,7 +20,7 @@ class GameState(private val board: Array<IntArray>,
         board[x][y] = value
     }
 
-    operator fun get(x: Int, y: Int) =  board[x][y]
+    operator fun get(x: Int, y: Int) = board[x][y]
 
     internal fun applyMove(move: Move) {
         require(this[move.x1, move.y1] != 0) { "Attempted to move a nonexistent piece." }
@@ -47,7 +49,7 @@ class GameState(private val board: Array<IntArray>,
     fun withMove(move: Move) = copy().apply { applyMove(move) }
 
     inline fun forAllSquares(block: (x: Int, y: Int) -> Unit) {
-        for(x in 0 until width) for(y in 0 until height){
+        for (x in 0 until width) for (y in 0 until height) {
             block(x, y)
         }
     }

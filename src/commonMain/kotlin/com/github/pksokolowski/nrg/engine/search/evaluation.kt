@@ -20,9 +20,8 @@ fun evaluate(state: GameState): Int {
     return sumPositive + sumNegative
 }
 
-fun evaluateForActivePlayer(state: GameState): Int{
-    //if(evaluate(state) != state.getEvaluation()) throw RuntimeException("fsfsef")
-    return  state.getEvaluation() * state.playerActive
+fun evaluateForActivePlayer(state: GameState): Int {
+    return state.getEvaluation() * state.playerActive
 }
 
 fun evaluatePlayerMateriel(state: GameState, player: Int): Int {
