@@ -25,26 +25,14 @@ fun evaluateForActivePlayer(state: GameState): Int{
     return  state.getEvaluation() * state.playerActive
 }
 
-fun evalPositives(state: GameState): Int {
-    var sumPositive = 0
-    state.forAllSquares { x, y ->
-        state[x, y].let {
-            when {
-                it > 0 -> sumPositive += it
-            }
-        }
-    }
-   return sumPositive
-}
+fun evaluatePlayerMateriel(state: GameState, player: Int): Int {
+    var sum = 0
+    state.forAllSquares iteration@{ x, y ->
+        val square = state[x, y]
+        if (square == 0) return@iteration
+        if ((square > 0) xor (player > 0)) return@iteration
 
-fun evalNegatives(state: GameState): Int {
-    var sumNegative = 0
-    state.forAllSquares { x, y ->
-        state[x, y].let {
-            when {
-                it < 0 -> sumNegative += it
-            }
-        }
+        sum += square
     }
-    return sumNegative
+    return sum
 }

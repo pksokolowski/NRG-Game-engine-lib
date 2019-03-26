@@ -1,7 +1,6 @@
 package com.github.pksokolowski.nrg.engine
 
-import com.github.pksokolowski.nrg.engine.search.evalNegatives
-import com.github.pksokolowski.nrg.engine.search.evalPositives
+import com.github.pksokolowski.nrg.engine.search.evaluatePlayerMateriel
 import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY
 import com.github.pksokolowski.nrg.engine.utils.MAX_SCORE
 import com.github.pksokolowski.nrg.engine.utils.MIN_SCORE
@@ -20,8 +19,8 @@ class GameState(private val board: Array<IntArray>, movesCount: Int = 0) {
 
     operator fun get(x: Int, y: Int) =  board[x][y]
 
-    private var evalPos = evalPositives(this)
-    private var evalNeg = evalNegatives(this)
+    private var evalPos = evaluatePlayerMateriel(this, 1)
+    private var evalNeg = evaluatePlayerMateriel(this, -1)
 
     fun getEvaluation(): Int{
         if (evalPos == 0) return MIN_SCORE + this.movesCount
