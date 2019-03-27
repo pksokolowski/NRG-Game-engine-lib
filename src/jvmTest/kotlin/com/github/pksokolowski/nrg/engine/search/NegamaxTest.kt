@@ -50,6 +50,7 @@ class NegamaxTest {
         val b = Int.MAX_VALUE
         val hashMaker = ZobristHash(state.width, state.height)
         val tTable = TTable(hashMaker, 1)
-        return negamax(state, depth, a, b, timeLimit, player, tTable)
+        val killers = KillerHeuristic(depth)
+        return negamax(state, depth, depth, a, b, timeLimit, player, tTable, killers)
     }
 }

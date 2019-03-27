@@ -8,7 +8,7 @@ import com.github.pksokolowski.nrg.engine.utils.isDeadlineCrossed
 import kotlin.math.max
 import kotlin.math.min
 
-fun negamax(state: GameState, depthLeft: Int, alpha: Int, beta: Int, deadline: Long?, player: Int, tTable: TTable): Int {
+fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, beta: Int, deadline: Long?, player: Int, tTable: TTable, killers: KillerHeuristic): Int {
     if (isDeadlineCrossed(deadline)) return MIN_SCORE
 
     if (depthLeft == 0) return state.evaluateForActivePlayer()
@@ -25,21 +25,26 @@ fun negamax(state: GameState, depthLeft: Int, alpha: Int, beta: Int, deadline: L
         if(newA >= newB) return ttEntry.bestScore
     }
 
-    val moves = possibleMovesFromOrNull(state)?.orderMoves(player, ttEntry.bestMove)
+    val killerMoves = killers recallAt absoluteDepth
+
+    val moves = possibleMovesFromOrNull(state)?.orderMoves(player, ttEntry.bestMove, killerMoves)
         ?: return state.evaluateForActivePlayer()
 
     var bestScore = Int.MIN_VALUE + 1
     var bestMove = moves[0]
     for (it in moves) {
         state.applyMove(it)
-        val score = -negamax(state, depthLeft - 1, -newB, -newA, deadline, -player, tTable)
+        val score = -negamax(state, depthLeft - 1, absoluteDepth + 1, -newB, -newA, deadline, -player, tTable, killers)
         if (score > bestScore) {
             bestScore = score
             bestMove = it
         }
         state.undoMove(it)
         newA = max(bestScore, newA)
-        if (newA >= newB) break
+        if (newA >= newB) {
+            killers.remember(it, absoluteDepth)
+            break
+        }
     }
 
     ttEntry.update(bestScore, alpha, beta, bestMove, depthLeft)

@@ -22,9 +22,10 @@ fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, rand
     var chosenMove: Move? = null
     val deadline = getDeadline(timeLimit)
     val tTable = getTranspositionTable(stateCopy)
+    val killers = KillerHeuristic(depth)
 
     for (i in 1..depth) {
-        val bestMove = pickBestMove(possibleMoves, stateCopy, i, deadline, tTable)
+        val bestMove = pickBestMove(possibleMoves, stateCopy, i, deadline, tTable, killers)
         if (isDeadlineCrossed(deadline)) break
         depthReached = i
         chosenMove = bestMove
@@ -32,14 +33,14 @@ fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, rand
     return BestMoveData(chosenMove, depthReached)
 }
 
-private fun pickBestMove(possibleMoves: List<Move>, state: GameState, depth: Int, deadline: Long? = null, tTable: TTable): Move? {
+private fun pickBestMove(possibleMoves: List<Move>, state: GameState, depth: Int, deadline: Long? = null, tTable: TTable, killers: KillerHeuristic): Move? {
     val player = state.playerActive
     var bestMove = possibleMoves[0]
     var bestScore = MIN_SCORE
 
     for (move in possibleMoves) {
         state.applyMove(move)
-        val score = -negamax(state, depth - 1, -MAX_SCORE, -bestScore, deadline, -player, tTable)
+        val score = -negamax(state, depth - 1, 1, -MAX_SCORE, -bestScore, deadline, -player, tTable, killers)
         state.undoMove(move)
 
         if (score > bestScore) {
