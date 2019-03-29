@@ -22,5 +22,7 @@ data class Move(
         return (movedPiece + abs(capture) * player).bound(-MAX_ENERGY, MAX_ENERGY)
     }
 
+    infix fun legalIn(state: GameState) = state[x1, y1] == movedPiece && state[x2, y2] == capture
+
     override fun toString() = "$movedPiece went from ($x1, $y1) to ($x2, $y2), capturing: $capture"
 }

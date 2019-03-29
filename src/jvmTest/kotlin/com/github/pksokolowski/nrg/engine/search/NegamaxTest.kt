@@ -51,6 +51,6 @@ class NegamaxTest {
         val hashMaker = ZobristHash(state.width, state.height)
         val tTable = TTable(hashMaker, 1)
         val killers = KillerHeuristic(depth)
-        return negamax(state, depth, depth, a, b, timeLimit, player, tTable, killers)
+        return negamax(state, depth, 0, a, b, timeLimit, player, tTable, killers)
     }
 }

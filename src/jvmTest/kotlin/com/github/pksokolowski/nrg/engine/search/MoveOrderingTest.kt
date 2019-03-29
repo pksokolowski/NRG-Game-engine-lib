@@ -71,53 +71,53 @@ class MoveOrderingTest {
         assertTrue(expected.contentDeepEquals(actual.toTypedArray()))
     }
 
-    @Test
-    fun `places provided good non captures right after captures`() {
-        val actual = mutableListOf(
-            NEUTRAL,
-            BIG_CAPTURE,
-            CAPTURE,
-            NEUTRAL_2
-        ).orderMoves(-1, goodNonCaptures = listOf(NEUTRAL_2))
-        val expected = arrayOf(
-            BIG_CAPTURE,
-            CAPTURE,
-            NEUTRAL_2,
-            NEUTRAL
-        )
-
-        assertTrue(expected.contentDeepEquals(actual.toTypedArray()))
-    }
-
-    @Test
-    fun `survives a non-existent good non capture provided`() {
-        val actual = mutableListOf(
-            NEUTRAL,
-            BIG_CAPTURE,
-            CAPTURE
-        ).orderMoves(-1, goodNonCaptures = listOf(NEUTRAL_2))
-        val expected = arrayOf(
-            BIG_CAPTURE,
-            CAPTURE,
-            NEUTRAL
-        )
-
-        assertTrue(expected.contentDeepEquals(actual.toTypedArray()))
-    }
-
-    @Test
-    fun `survives a non-existent good non capture provided when there are only captures`() {
-        val actual = mutableListOf(
-            BIG_CAPTURE,
-            CAPTURE
-        ).orderMoves(-1, goodNonCaptures = listOf(NEUTRAL_2))
-        val expected = arrayOf(
-            BIG_CAPTURE,
-            CAPTURE
-        )
-
-        assertTrue(expected.contentDeepEquals(actual.toTypedArray()))
-    }
+//    @Test
+//    fun `places provided good non captures right after captures`() {
+//        val actual = mutableListOf(
+//            NEUTRAL,
+//            BIG_CAPTURE,
+//            CAPTURE,
+//            NEUTRAL_2
+//        ).orderMoves(-1, goodNonCaptures = listOf(NEUTRAL_2))
+//        val expected = arrayOf(
+//            BIG_CAPTURE,
+//            CAPTURE,
+//            NEUTRAL_2,
+//            NEUTRAL
+//        )
+//
+//        assertTrue(expected.contentDeepEquals(actual.toTypedArray()))
+//    }
+//
+//    @Test
+//    fun `survives a non-existent good non capture provided`() {
+//        val actual = mutableListOf(
+//            NEUTRAL,
+//            BIG_CAPTURE,
+//            CAPTURE
+//        ).orderMoves(-1, goodNonCaptures = listOf(NEUTRAL_2))
+//        val expected = arrayOf(
+//            BIG_CAPTURE,
+//            CAPTURE,
+//            NEUTRAL
+//        )
+//
+//        assertTrue(expected.contentDeepEquals(actual.toTypedArray()))
+//    }
+//
+//    @Test
+//    fun `survives a non-existent good non capture provided when there are only captures`() {
+//        val actual = mutableListOf(
+//            BIG_CAPTURE,
+//            CAPTURE
+//        ).orderMoves(-1, goodNonCaptures = listOf(NEUTRAL_2))
+//        val expected = arrayOf(
+//            BIG_CAPTURE,
+//            CAPTURE
+//        )
+//
+//        assertTrue(expected.contentDeepEquals(actual.toTypedArray()))
+//    }
 
     companion object {
         val NEUTRAL = Move(-4, 1, 1, 2, 2, 0)

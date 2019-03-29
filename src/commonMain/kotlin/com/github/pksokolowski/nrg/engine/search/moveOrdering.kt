@@ -6,42 +6,15 @@ import com.github.pksokolowski.nrg.engine.utils.bound
 
 fun MutableList<Move>.orderMoves(
     player: Int,
-    bestMove: Move? = null,
-    goodNonCaptures: List<Move>? = null
+    bestMove: Move? = null
 ): MutableList<Move> {
     intSort(player)
-    orderGoodNonCapturesAfterCaptures(goodNonCaptures)
 
     bestMove?.let {
         if (remove(it)) add(0, it)
     }
 
     return this
-}
-
-private fun MutableList<Move>.orderGoodNonCapturesAfterCaptures(
-    goodNonCaptures: List<Move>?
-) {
-    if (!goodNonCaptures.isNullOrEmpty()) {
-        val lastCaptureIndex = afterCapturesIndex(this)
-        for (i in goodNonCaptures.indices) {
-            val move = goodNonCaptures[i]
-            val index = indexOf(move)
-            if (index == -1) continue
-
-            val destination = lastCaptureIndex + i
-            if(destination > this.lastIndex) return
-
-            this[destination] = move.also { this[index] = this[destination] }
-        }
-    }
-}
-
-private fun afterCapturesIndex(moves: List<Move>): Int {
-    for (i in 0 until moves.size) {
-        if (moves[i].capture == 0) return i
-    }
-    return 0
 }
 
 private fun MutableList<Move>.intSort(player: Int): MutableList<Move> {

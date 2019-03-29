@@ -1,6 +1,7 @@
 package com.github.pksokolowski.nrg.engine.search
 
 import com.github.pksokolowski.nrg.engine.GameState
+import com.github.pksokolowski.nrg.engine.Move
 import com.github.pksokolowski.nrg.engine.search.transposition.NodeType
 import com.github.pksokolowski.nrg.engine.search.transposition.TTable
 import com.github.pksokolowski.nrg.engine.utils.MIN_SCORE
@@ -15,6 +16,16 @@ fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, be
     var newA = alpha
     var newB = beta
 
+    fun Move?.givesCutOff(): Boolean{
+        if(this == null) return false
+        if(!(this legalIn state)) return false
+        state.applyMove(this)
+        val score = -negamax(state, depthLeft - 1, absoluteDepth + 1, -newB, -newA, deadline, -player, tTable, killers)
+        state.undoMove(this)
+        if(score >= newB) return true
+        return false
+    }
+
     val ttEntry = tTable[state]
     if (ttEntry.depth >= depthLeft) {
         when (ttEntry.type) {
@@ -25,9 +36,20 @@ fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, be
         if(newA >= newB) return ttEntry.bestScore
     }
 
+    if(ttEntry.bestMove.givesCutOff()){
+        return newB
+    }
+
     val killerMoves = killers recallAt absoluteDepth
 
-    val moves = possibleMovesFromOrNull(state)?.orderMoves(player, ttEntry.bestMove, killerMoves)
+    if(killerMoves.getOrNull(0).givesCutOff()){
+        return newB
+    }
+    if(killerMoves.getOrNull(1).givesCutOff()){
+        return newB
+    }
+
+    val moves = possibleMovesFromOrNull(state)?.orderMoves(player, ttEntry.bestMove)
         ?: return state.evaluateForActivePlayer()
 
     var bestScore = Int.MIN_VALUE + 1
