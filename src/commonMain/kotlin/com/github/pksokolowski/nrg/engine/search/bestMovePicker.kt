@@ -54,7 +54,7 @@ private fun pickBestMove(possibleMoves: List<Move>, state: GameState, depth: Int
 
 private fun getTranspositionTable(state: GameState): TTable {
     val hashMaker = ZobristHash(state.width, state.height)
-    return TTable(hashMaker, 70000)
+    return TTable(hashMaker, 7000000)
 }
 
 private fun getPossibleMovesAtRoot(state: GameState, randomize: Boolean): List<Move>? {
