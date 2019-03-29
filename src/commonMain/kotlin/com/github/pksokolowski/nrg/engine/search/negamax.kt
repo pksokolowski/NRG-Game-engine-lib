@@ -16,13 +16,20 @@ fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, be
     var newA = alpha
     var newB = beta
 
+    var bestScore = Int.MIN_VALUE + 1
+    var nullableBestMove: Move? = null
     fun Move?.givesCutOff(): Boolean{
         if(this == null) return false
         if(!(this legalIn state)) return false
         state.applyMove(this)
         val score = -negamax(state, depthLeft - 1, absoluteDepth + 1, -newB, -newA, deadline, -player, tTable, killers)
         state.undoMove(this)
-        if(score >= newB) return true
+        if (score > bestScore) {
+            bestScore = score
+            nullableBestMove = this
+        }
+        newA = max(score, newA)
+        if(newA >= newB) return true
         return false
     }
 
@@ -49,11 +56,12 @@ fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, be
         return newB
     }
 
-    val moves = possibleMovesFromOrNull(state)?.orderMoves(player, ttEntry.bestMove)
+    val moves = possibleMovesFromOrNull(state)?.orderMoves(player)
         ?: return state.evaluateForActivePlayer()
 
-    var bestScore = Int.MIN_VALUE + 1
-    var bestMove = moves[0]
+    moves.remove(ttEntry.bestMove)
+
+    var bestMove = nullableBestMove ?: moves[0]
     for (it in moves) {
         state.applyMove(it)
         val score = -negamax(state, depthLeft - 1, absoluteDepth + 1, -newB, -newA, deadline, -player, tTable, killers)
