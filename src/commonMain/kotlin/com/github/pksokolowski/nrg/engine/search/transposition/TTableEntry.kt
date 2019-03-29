@@ -17,7 +17,7 @@ class TTableEntry(var hash: ULong) {
     var type: NodeType = NodeType.EMPTY
         private set
 
-    fun update(bestScore: Int, a: Int, b: Int, bestMove: Move, depth: Int) {
+    fun update(bestScore: Int, a: Int, b: Int, bestMove: Move?, depth: Int) {
         this.bestScore = bestScore
         // only store best moves for lower and exact nodes
         this.bestMove = if (bestScore > a) bestMove else null

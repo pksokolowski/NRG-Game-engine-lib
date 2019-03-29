@@ -1,5 +1,6 @@
 package com.github.pksokolowski.nrg.performance
 
+import com.github.pksokolowski.nrg.engine.utils.tallyCounter
 import com.github.pksokolowski.nrg.performance.Command.*
 
 fun main() {
@@ -32,6 +33,8 @@ fun main() {
             lastCommand = cmd
         }
 
+        tallyCounter.reset()
+
         when (cmd) {
             is Benchmark -> {
                 println("running performance tests suite...")
@@ -47,6 +50,8 @@ fun main() {
                 println("you what?")
             }
         }
+
+        if(tallyCounter.count > 9) println("Tally count: ${tallyCounter.count}")
     }
 }
 
