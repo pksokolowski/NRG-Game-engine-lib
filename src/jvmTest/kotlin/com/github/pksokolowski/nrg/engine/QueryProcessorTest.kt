@@ -13,7 +13,7 @@ class QueryProcessorTest{
         val initialResponse = startGame()
         val chosenMove = initialResponse.possibleMoves[0]
 
-        val secondQuery = EngineQuery(initialResponse.state, chosenMove, depthAllowed = 3)
+        val secondQuery = EngineQuery(initialResponse.state.withMove(chosenMove), depthAllowed = 3)
         val secondResponse = play(secondQuery)
 
         if(secondResponse.state[chosenMove.x1, chosenMove.y1] != 0) fail()
@@ -27,7 +27,7 @@ class QueryProcessorTest{
         """.toGameState()
         val chosenMove = Move(-1, 2, 1, 1, 0, 1)
 
-        val query = EngineQuery(state, chosenMove, depthAllowed = 3)
+        val query = EngineQuery(state.withMove(chosenMove), depthAllowed = 3)
         val response = play(query)
 
         val finished = response.status as Status.FINISHED
@@ -42,7 +42,7 @@ class QueryProcessorTest{
         """.toGameState()
         val chosenMove = Move(-1, 2, 1, 1, 0, 1)
 
-        val query = EngineQuery(state, chosenMove, depthAllowed = 3)
+        val query = EngineQuery(state.withMove(chosenMove), depthAllowed = 3)
         val response = play(query)
 
         val finished = response.status as Status.FINISHED

@@ -32,7 +32,7 @@ class BenchmarkService {
         """.toGameState()
 
         val move = Move(-1, 4, 6, 4, 5, 0)
-        val query = EngineQuery(state, move, depthAllowed = depth, randomize = false)
+        val query = EngineQuery(state.withMove(move), depthAllowed = depth, randomize = false)
         return QueryData(
             query,
             "[realistic load] Game beginning. (depth = $depth)"
@@ -52,7 +52,7 @@ class BenchmarkService {
         """.toGameState(10)
 
         val move = Move(-3, 3, 4, 4, 3, 2)
-        val query = EngineQuery(state, move, depthAllowed = depth, randomize = false)
+        val query = EngineQuery(state.withMove(move), depthAllowed = depth, randomize = false)
         return QueryData(query, "Mid-game. (depth = $depth)")
     }
 
@@ -69,7 +69,7 @@ class BenchmarkService {
         """.toGameState(10)
 
         val move = Move(-3, 3, 4, 4, 3, 2)
-        val query = EngineQuery(state, move, depthAllowed = depth, randomize = false)
+        val query = EngineQuery(state.withMove(move), depthAllowed = depth, randomize = false)
         return QueryData(
             query,
             "Mid game, dense. (depth = $depth)"
@@ -89,7 +89,7 @@ class BenchmarkService {
         """.toGameState(10)
 
         val move = Move(-2, 5, 5, 4, 4, 1)
-        val query = EngineQuery(state, move, depthAllowed = depth, randomize = false)
+        val query = EngineQuery(state.withMove(move), depthAllowed = depth, randomize = false)
         return QueryData(
             query,
             "Mid game, pieces far apart. (depth = $depth)"
@@ -109,7 +109,7 @@ class BenchmarkService {
         """.toGameState(10)
 
         val move = Move(-2, 3, 5, 4, 4, 3)
-        val query = EngineQuery(state, move, depthAllowed = depth, randomize = false)
+        val query = EngineQuery(state.withMove(move), depthAllowed = depth, randomize = false)
         return QueryData(
             query,
             "[realistic load] Late game (depth = $depth)"
@@ -129,7 +129,7 @@ class BenchmarkService {
         """.toGameState(10)
 
         val move = Move(-4, 5, 7, 3, 7, 0)
-        val query = EngineQuery(state, move, depthAllowed = depth, randomize = false)
+        val query = EngineQuery(state.withMove(move), depthAllowed = depth, randomize = false)
         return QueryData(
             query,
             "[realistic load] Late game with pieces dispersed (depth = $depth)"
@@ -149,7 +149,7 @@ class BenchmarkService {
         """.toGameState(20)
 
         val move = Move(-2, 2, 4, 3, 3, 2)
-        val query = EngineQuery(state, move, depthAllowed = depth, randomize = false)
+        val query = EngineQuery(state.withMove(move), depthAllowed = depth, randomize = false)
         return QueryData(
             query,
             "[realistic load] Two rectangles of 2-energy pieces, zero distance (depth = $depth)"
@@ -169,7 +169,7 @@ class BenchmarkService {
         """.toGameState(20)
 
         val move = Move(-1, 4, 7, 4, 6, 2)
-        val query = EngineQuery(state, move, depthAllowed = depth, randomize = false)
+        val query = EngineQuery(state.withMove(move), depthAllowed = depth, randomize = false)
         return QueryData(
             query,
             "[realistic load] Near beginning. No captures available without sacrifice (depth = $depth)"

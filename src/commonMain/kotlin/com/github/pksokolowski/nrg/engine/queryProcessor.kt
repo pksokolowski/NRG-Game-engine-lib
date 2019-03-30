@@ -7,8 +7,7 @@ import com.github.pksokolowski.nrg.engine.search.pickBestMoveFrom
 import com.github.pksokolowski.nrg.engine.utils.getInitialGameState
 
 fun play(query: EngineQuery) = with(query) {
-    state.applyMove(chosenMove)
-
+    require(state.playerActive == 1) { "Not AI-player's move!"}
     val bestMoveData = pickBestMoveFrom(state, depthAllowed, timeAllowed, randomize).apply {
         move?.let { state.applyMove(it) }
     }
