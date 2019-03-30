@@ -17,36 +17,8 @@ class KillerHeuristic(maxDepth: Int) {
         turns[depth] = (turns[depth] + 1) % moves[depth].size
     }
 
-    infix fun recallAt(depth: Int): List<Move> = mutableListOf<Move>().apply {
+    infix fun at(depth: Int): List<Move> = mutableListOf<Move>().apply {
         moves[depth].forEach { if(it != null) this.add(it) }
     }
 
-    fun orderMoves(depth: Int, startIndex: Int, movesToOrder: MutableList<Move>) {
-        moves[depth][0]?.let let@{
-            val index = movesToOrder.indexOf(it)
-            if(index == -1) return@let
-            movesToOrder[startIndex] = it.also { movesToOrder[index] = movesToOrder[startIndex] }
-        }
-        moves[depth][1]?.let let@{
-            val index = movesToOrder.indexOf(it)
-            if(index == -1) return@let
-            if(movesToOrder.lastIndex < startIndex+1) return@let
-            movesToOrder[startIndex+1] = it.also { movesToOrder[index] = movesToOrder[startIndex+1] }
-        }
-
-//        val killers = this recallAt depth
-//        if (!killers.isNullOrEmpty()) {
-//            val lastCaptureIndex = startIndex
-//            for (i in killers.indices) {
-//                val move = killers[i]
-//                val index = movesToOrder.indexOf(move)
-//                if (index == -1) continue
-//
-//                val destination = lastCaptureIndex + i
-//                if(destination > movesToOrder.lastIndex) return
-//
-//                movesToOrder[destination] = move.also { movesToOrder[index] = movesToOrder[destination] }
-//            }
-//        }
-    }
 }

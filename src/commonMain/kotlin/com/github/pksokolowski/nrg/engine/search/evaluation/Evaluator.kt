@@ -2,6 +2,8 @@ package com.github.pksokolowski.nrg.engine.search.evaluation
 
 import com.github.pksokolowski.nrg.engine.GameState
 import com.github.pksokolowski.nrg.engine.Move
+import com.github.pksokolowski.nrg.engine.search.evaluation.Evaluator.OPERATION.ADDITION
+import com.github.pksokolowski.nrg.engine.search.evaluation.Evaluator.OPERATION.SUBTRACTION
 import com.github.pksokolowski.nrg.engine.utils.MAX_SCORE
 import com.github.pksokolowski.nrg.engine.utils.MIN_SCORE
 
@@ -16,28 +18,25 @@ class Evaluator(val state: GameState): IncrementalEvaluator{
         return evalPos + evalNeg
     }
 
-    private fun dispatchAddition(value: Int){
+    private fun dispatch(value: Int, operation: OPERATION){
         if(value > 0){
-            evalPos += value
-        }else if (value < 0) evalNeg += value
+            evalPos += operation.sign * value
+        }else if (value < 0) evalNeg += operation.sign * value
     }
 
-    private fun dispatchSubtraction(value: Int){
-        if(value > 0){
-            evalPos -= value
-        }else if (value < 0) evalNeg -= value
-    }
+    private inline fun add(value: Int) = dispatch(value, ADDITION)
+    private inline fun subtract(value: Int) = dispatch(value, SUBTRACTION)
 
     override infix fun apply(move: Move) {
-        dispatchSubtraction(move.movedPiece)
-        dispatchSubtraction(move.capture)
-        dispatchAddition(move.resolveDestinationValue())
+        subtract(move.movedPiece)
+        subtract(move.capture)
+        add(move.resolveDestinationValue())
     }
 
     override infix fun undo(move: Move) {
-        dispatchSubtraction(move.resolveDestinationValue())
-        dispatchAddition(move.movedPiece)
-        dispatchAddition(move.capture)
+        subtract(move.resolveDestinationValue())
+        add(move.movedPiece)
+        add(move.capture)
     }
 
     private fun evaluatePlayerMateriel(state: GameState, player: Int): Int {
@@ -50,5 +49,10 @@ class Evaluator(val state: GameState): IncrementalEvaluator{
             sum += square
         }
         return sum
+    }
+
+    private enum class OPERATION(val sign: Int){
+        ADDITION(1),
+        SUBTRACTION(-1)
     }
 }
