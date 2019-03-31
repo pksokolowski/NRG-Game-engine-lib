@@ -51,7 +51,7 @@ fun main() {
             }
         }
 
-        if(tallyCounter.count > 9) println("Tally count: ${tallyCounter.count}")
+        if(tallyCounter.count > 9) println("Tally count: ${"%,d".format(tallyCounter.count)}")
     }
 }
 

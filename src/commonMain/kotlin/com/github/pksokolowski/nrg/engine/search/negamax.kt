@@ -10,8 +10,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, beta: Int, deadline: Long?, player: Int, tTable: TTable, killers: KillerHeuristic): Int {
-    if (isDeadlineCrossed(deadline)) return MIN_SCORE
     if (depthLeft == 0) return state.evaluateForActivePlayer()
+    if (isDeadlineCrossed(deadline)) return MIN_SCORE
 
     var newA = alpha
     var newB = beta
