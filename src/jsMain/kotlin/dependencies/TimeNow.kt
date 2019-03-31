@@ -4,6 +4,6 @@ import kotlin.js.Date
 
 actual object TimeNow {
     actual fun get(): Long {
-        return Date().getTime().toLong()
+        return Date.now().toLong()
     }
 }
