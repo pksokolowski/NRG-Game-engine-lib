@@ -30,9 +30,24 @@ fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, be
         if(newA >= newB) return ttEntry.bestScore
     }
 
-    fun scoreFor(move:Move){
+    fun recursiveCall(remainingDepth: Int) = - negamax(state, remainingDepth, absoluteDepth + 1, -newB, -newA, deadline, -player, tTable, killers)
+
+    fun scoreFor(move: Move, reduceLateMoves: Boolean = false, moveNum: Int = -1) {
         state.applyMove(move)
-        val score = -negamax(state, depthLeft - 1, absoluteDepth + 1, -newB, -newA, deadline, -player, tTable, killers)
+        val reduction = if(moveNum > 6) 3 else 2
+        val depthLeftToUse = if (
+            reduceLateMoves &&
+            ttEntry.type != NodeType.EXACT &&
+            absoluteDepth >= 3 &&
+            move.capture == 0
+        ) {
+            max(1, depthLeft - reduction)
+        } else depthLeft
+
+        var score = recursiveCall(depthLeftToUse - 1)
+        if (depthLeft != depthLeftToUse && score > newA)
+            score = recursiveCall(depthLeftToUse - 1)
+
         state.undoMove(move)
         if (score > bestScore) {
             bestScore = score
@@ -56,8 +71,8 @@ fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, be
     val moves = possibleMovesFromOrNull(state)?.orderMoves(player, ttEntry.bestMove)
         ?: return state.evaluateForActivePlayer()
 
-    for (it in moves) {
-        scoreFor(it)
+    for ((i, it) in moves.withIndex()) {
+        scoreFor(it, i > 3, i)
         if (newA >= newB) {
             killers.remember(it, absoluteDepth)
             break
