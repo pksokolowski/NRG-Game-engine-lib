@@ -9,7 +9,7 @@ import com.github.pksokolowski.nrg.engine.utils.isDeadlineCrossed
 import kotlin.math.max
 import kotlin.math.min
 
-fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, beta: Int, deadline: Long?, player: Int, tTable: TTable, killers: KillerHeuristic): Int {
+fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, beta: Int, deadline: Long?, player: Int, tTable: TTable, killers: KillerHeuristic, allowNullMuve: Boolean = true): Int {
     if (depthLeft == 0) return state.evaluateForActivePlayer()
     if (isDeadlineCrossed(deadline)) return MIN_SCORE
 
@@ -30,7 +30,15 @@ fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, be
         if(newA >= newB) return ttEntry.bestScore
     }
 
-    fun recursiveCall(remainingDepth: Int) = - negamax(state, remainingDepth, absoluteDepth + 1, -newB, -newA, deadline, -player, tTable, killers)
+    fun recursiveCall(remainingDepth: Int, shouldAllowNullMove: Boolean = allowNullMuve) =
+        - negamax(state, remainingDepth, absoluteDepth + 1, -newB, -newA, deadline, -player, tTable, killers, shouldAllowNullMove)
+
+    if (allowNullMuve && depthLeft - 3 > 1) {
+        state.applyNullMove()
+        val score = recursiveCall(depthLeft - 3, false)
+        state.undoNullMove()
+        if (score >= newB) return score
+    }
 
     fun scoreFor(move: Move, reduceLateMoves: Boolean = false, moveNum: Int = -1) {
         state.applyMove(move)

@@ -43,6 +43,14 @@ class GameState(
         evaluator undo move
     }
 
+    internal fun applyNullMove(){
+        movesCount++
+    }
+
+    internal fun undoNullMove(){
+        movesCount--
+    }
+
     fun getBoard() = Array(board.size) { board[it].copyOf() }
 
     fun copy() = GameState(getBoard(), movesCount)
