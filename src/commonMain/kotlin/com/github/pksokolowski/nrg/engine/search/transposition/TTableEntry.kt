@@ -24,15 +24,9 @@ class TTableEntry(var hash: ULong) {
         this.depth = depth
 
         type = when {
-            bestScore <= a -> {
-                NodeType.UPPER
-            }
-            bestScore >= b -> {
-                NodeType.LOWER
-            }
-            else -> {
-                NodeType.EXACT
-            }
+            bestScore <= a -> NodeType.UPPER
+            bestScore >= b -> NodeType.LOWER
+            else -> NodeType.EXACT
         }
     }
 
