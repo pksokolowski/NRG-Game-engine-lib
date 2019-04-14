@@ -8,7 +8,7 @@ class TTable(private val hashMaker: HashMaker, length: Int) {
     private val length = length.toULong()
 
     operator fun get(gameState: GameState): TTableEntry {
-        val hash = hashMaker.hashOf(gameState)
+        val hash = gameState.hash
         val index = (hash % length).toInt()
 
         fun matchOrNull() = data[index]?.let {

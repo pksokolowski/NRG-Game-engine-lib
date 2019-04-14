@@ -1,11 +1,13 @@
 package com.github.pksokolowski.nrg.engine
 
 import com.github.pksokolowski.nrg.engine.search.evaluation.IncrementalEvaluatorFactory
+import com.github.pksokolowski.nrg.engine.search.transposition.IncrementalHasherFactory
 
 class GameState(
     private val board: Array<IntArray>,
     movesCount: Int = 0,
-    evaluatorFactory: IncrementalEvaluatorFactory = IncrementalEvaluatorFactory()
+    evaluatorFactory: IncrementalEvaluatorFactory = IncrementalEvaluatorFactory(),
+    hasherFactory: IncrementalHasherFactory = IncrementalHasherFactory()
 ) {
     val width = board.size
     val height = board.getOrNull(0)?.size ?: 0
@@ -16,6 +18,17 @@ class GameState(
 
     fun evaluate() = evaluator.evaluate()
     fun evaluateForActivePlayer() = evaluator.evaluate() * playerActive
+
+    private val hashMaker = hasherFactory.getIncrementalHasher(this)
+    val hash: ULong
+        get(){
+//            val hashFull = hashMaker.hashOf(this)
+//            val hashIncc = hashMaker.getHash()
+//            val areTheSame = hashFull == hashIncc
+//            if(!areTheSame)
+//                throw RuntimeException("incremental hashing came up with a different hash than the old solution.")
+            return hashMaker.getHash()
+        }
 
     private operator fun set(x: Int, y: Int, value: Int) {
         board[x][y] = value
@@ -31,6 +44,7 @@ class GameState(
         movesCount++
 
         evaluator apply move
+        hashMaker apply move
     }
 
     internal fun undoMove(move: Move) {
@@ -41,14 +55,17 @@ class GameState(
         movesCount--
 
         evaluator undo move
+        hashMaker undo move
     }
 
     internal fun applyNullMove(){
         movesCount++
+        hashMaker apply null
     }
 
     internal fun undoNullMove(){
         movesCount--
+        hashMaker undo null
     }
 
     fun getBoard() = Array(board.size) { board[it].copyOf() }
