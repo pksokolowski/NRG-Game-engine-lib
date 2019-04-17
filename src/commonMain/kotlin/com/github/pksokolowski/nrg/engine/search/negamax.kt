@@ -33,7 +33,7 @@ fun negamax(state: GameState, depthLeft: Int, absoluteDepth: Int, alpha: Int, be
     fun recursiveCall(remainingDepth: Int, shouldAllowNullMove: Boolean = allowNullMuve) =
         - negamax(state, remainingDepth, absoluteDepth + 1, -newB, -newA, deadline, -player, tTable, killers, shouldAllowNullMove)
 
-    if (allowNullMuve && depthLeft - 3 > 1) {
+    if (allowNullMuve && depthLeft - 3 > 0) {
         state.applyNullMove()
         val score = recursiveCall(depthLeft - 3, false)
         state.undoNullMove()
