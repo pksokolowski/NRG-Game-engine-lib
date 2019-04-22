@@ -14,8 +14,10 @@ class GameState(
 
     private val evaluator = evaluatorFactory.getEvaluator(this)
 
-    fun evaluate() = evaluator.evaluate()
-    fun evaluateForActivePlayer() = evaluator.evaluate() * playerActive
+    internal fun evaluate() = evaluator.evaluate()
+    internal fun evaluateForActivePlayer() = evaluator.evaluate() * playerActive
+    val humanPlayerScore
+            get() = -evaluator.getRawMaterielScore()
 
     private operator fun set(x: Int, y: Int, value: Int) {
         board[x][y] = value

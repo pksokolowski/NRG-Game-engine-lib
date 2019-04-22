@@ -18,6 +18,8 @@ class Evaluator(val state: GameState): IncrementalEvaluator{
         return evalPos + evalNeg
     }
 
+    override fun getRawMaterielScore() = evalPos + evalNeg
+
     private fun dispatch(value: Int, operation: OPERATION){
         if(value > 0){
             evalPos += operation.sign * value

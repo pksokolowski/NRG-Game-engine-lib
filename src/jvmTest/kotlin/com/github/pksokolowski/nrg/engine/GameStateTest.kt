@@ -173,6 +173,17 @@ class GameStateTest {
         assertEquals(-1, originalState[1, 0])
     }
 
+    @Test
+    fun `humanPlayerScore is only reflecting raw materiel advantage`(){
+        val state = """
+            00 00 00 00
+            -4 00 00 00
+        """.toGameState(12)
+
+        val humanScore = state.humanPlayerScore
+        assertEquals(4, humanScore)
+    }
+
     private fun prepareState(width: Int = 8, height: Int = width): GameState {
         val matrix = makeMatrix(width, height)
         return GameState(matrix)
