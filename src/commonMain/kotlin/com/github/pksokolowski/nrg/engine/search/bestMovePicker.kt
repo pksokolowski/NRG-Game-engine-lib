@@ -9,19 +9,25 @@ import com.github.pksokolowski.nrg.engine.utils.MIN_SCORE
 import com.github.pksokolowski.nrg.engine.utils.getDeadline
 import com.github.pksokolowski.nrg.engine.utils.isDeadlineCrossed
 
-class BestMoveData(val move: Move?, val depthReached: Int)
+class BestMoveData(val move: Move?, val depthReached: Int, val transpositionTable: TTable?)
 
-fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, randomize: Boolean = false): BestMoveData {
+fun pickBestMoveFrom(
+    state: GameState,
+    depth: Int,
+    timeLimit: Long? = null,
+    randomize: Boolean = false,
+    transpositionTTable: TTable? = null
+): BestMoveData {
     // work on a copy, so the library user can still enjoy a practically immutable object
     val stateCopy = state.copy()
 
     val possibleMoves = getPossibleMovesAtRoot(stateCopy, randomize)
-        ?: return BestMoveData(null, 0)
+        ?: return BestMoveData(null, 0, null)
 
     var depthReached = 0
     var chosenMove: Move? = null
     val deadline = getDeadline(timeLimit)
-    val tTable = getTranspositionTable(stateCopy)
+    val tTable = transpositionTTable ?: getTranspositionTable(stateCopy)
     val killers = KillerHeuristic(depth)
 
     for (i in 1..depth) {
@@ -30,10 +36,17 @@ fun pickBestMoveFrom(state: GameState, depth: Int, timeLimit: Long? = null, rand
         depthReached = i
         chosenMove = bestMove
     }
-    return BestMoveData(chosenMove, depthReached)
+    return BestMoveData(chosenMove, depthReached, tTable)
 }
 
-private fun pickBestMove(possibleMoves: List<Move>, state: GameState, depth: Int, deadline: Long? = null, tTable: TTable, killers: KillerHeuristic): Move? {
+private fun pickBestMove(
+    possibleMoves: List<Move>,
+    state: GameState,
+    depth: Int,
+    deadline: Long? = null,
+    tTable: TTable,
+    killers: KillerHeuristic
+): Move? {
     val player = state.playerActive
     var bestMove = possibleMoves[0]
     var bestScore = MIN_SCORE
