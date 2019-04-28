@@ -1,6 +1,7 @@
 package com.github.pksokolowski.nrg.engine.search.transposition
 
 import com.github.pksokolowski.nrg.engine.Move
+import com.github.pksokolowski.nrg.engine.search.transposition.NodeType.*
 
 /**
  * A mutable transposition table entry.
@@ -14,7 +15,7 @@ class TTableEntry(var hash: ULong) {
         private set
     var depth: Int = 0
         private set
-    var type: NodeType = NodeType.EMPTY
+    var type = EMPTY
         private set
 
     fun update(bestScore: Int, a: Int, b: Int, bestMove: Move?, depth: Int) {
@@ -24,9 +25,9 @@ class TTableEntry(var hash: ULong) {
         this.depth = depth
 
         type = when {
-            bestScore <= a -> NodeType.UPPER
-            bestScore >= b -> NodeType.LOWER
-            else -> NodeType.EXACT
+            bestScore <= a -> UPPER
+            bestScore >= b -> LOWER
+            else -> EXACT
         }
     }
 
