@@ -2,12 +2,30 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == "kotlin-multiplatform") {
-                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
+                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:$mainKotlinVersion")
+            }
+            if (requested.id.id == "org.jetbrains.kotlin.jvm") {
+                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:$mainKotlinVersion")
+            }
+            if (requested.id.id == "kotlinx-serialization") {
+                useModule("org.jetbrains.kotlin:kotlin-serialization:$mainKotlinVersion")
             }
         }
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-dev' }
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
 }
 rootProject.name = 'NRG Game'
 
+include ':example-visitors'
+include ':example-jvm'
+include ':example-js'
+include ':example-native'
+include ':example-multiplatform'
 
 enableFeaturePreview('GRADLE_METADATA')

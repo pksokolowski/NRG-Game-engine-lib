@@ -1,8 +1,22 @@
+buildscript {
+    ext.serialization_version = mainLibVersion
+
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url "https://dl.bintray.com/jetbrains/kotlin-native-dependencies" }
+    }
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
+    }
+}
 plugins {
     id 'kotlin-multiplatform' version '1.3.31'
+    id 'kotlinx-serialization'
 }
 repositories {
     mavenCentral()
+    maven { url "https://kotlin.bintray.com/kotlinx" }
 }
 group 'com.github.pksokolowski'
 version '0.0.1'
@@ -26,6 +40,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation kotlin('stdlib-common')
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
             }
         }
         commonTest {
@@ -37,6 +52,7 @@ kotlin {
         jvmMain {
             dependencies {
                 implementation kotlin('stdlib-jdk8')
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
             }
         }
         jvmTest {
