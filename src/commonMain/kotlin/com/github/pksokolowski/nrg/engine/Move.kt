@@ -2,8 +2,10 @@ package com.github.pksokolowski.nrg.engine
 
 import com.github.pksokolowski.nrg.engine.utils.MAX_ENERGY
 import com.github.pksokolowski.nrg.engine.utils.bound
+import kotlinx.serialization.Serializable
 import kotlin.math.abs
 
+@Serializable
 data class Move(
     val movedPiece: Int,
     val x1: Int,

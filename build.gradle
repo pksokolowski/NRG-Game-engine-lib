@@ -8,6 +8,7 @@ buildscript {
     }
     dependencies {
         classpath "com.moowork.gradle:gradle-node-plugin:$gradle_node_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$mainKotlinVersion"
     }
 }
 plugins {
@@ -22,6 +23,8 @@ group 'com.github.pksokolowski'
 version '0.0.1'
 
 apply plugin: 'maven-publish'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlinx-serialization'
 
 kotlin {
     jvm()
@@ -64,6 +67,7 @@ kotlin {
         jsMain {
             dependencies {
                 implementation kotlin('stdlib-js')
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serialization_version"
             }
         }
         jsTest {
@@ -72,6 +76,9 @@ kotlin {
             }
         }
         mingwMain {
+            dependencies {
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization_version"
+            }
         }
         mingwTest {
         }
