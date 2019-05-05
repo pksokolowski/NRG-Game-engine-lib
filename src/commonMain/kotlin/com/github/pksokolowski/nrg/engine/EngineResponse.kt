@@ -34,10 +34,10 @@ data class EngineResponse(
     val transpositionTTable: TTable? = null
 ) {
     @UnstableDefault
-    fun serialize() = Json.stringify(EngineResponse.serializer(), this)
+    fun serialize() = Json.stringify(serializer(), this)
 
     companion object {
         @UnstableDefault
-        fun deserialize(serializedResponse: String) = Json.parse(EngineResponse.serializer(), serializedResponse)
+        fun deserialize(serializedResponse: String) = Json.parse(serializer(), serializedResponse)
     }
 }

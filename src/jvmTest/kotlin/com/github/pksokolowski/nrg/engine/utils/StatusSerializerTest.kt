@@ -12,24 +12,24 @@ import kotlin.test.assertEquals
 class StatusSerializerTest {
 
     @Test
-    fun `ONGOING status is deserialized back without data corruption`() =
+    fun `ONGOING status is serialized and deserialized back without data corruption`() =
         givenOngoingStatus()
-            .serializationCycleIntroducesNoDataCorruption()
+            .serializerPreservesData()
 
     @Test
-    fun `FINISHED status with human victory is deserialized back without data corruption`() =
+    fun `FINISHED status with human victory is serialized and deserialized back without data corruption`() =
         givenHumanVictory()
-            .serializationCycleIntroducesNoDataCorruption()
+            .serializerPreservesData()
 
     @Test
-    fun `FINISHED status with AI victory is deserialized back without data corruption`() =
+    fun `FINISHED status with AI victory is serialized and deserialized back without data corruption`() =
         givenAiVictory()
-            .serializationCycleIntroducesNoDataCorruption()
+            .serializerPreservesData()
 
     @Test
-    fun `FINISHED status with a draw is deserialized back without data corruption`() =
+    fun `FINISHED status with a draw is serialized and deserialized back without data corruption`() =
         givenADraw()
-            .serializationCycleIntroducesNoDataCorruption()
+            .serializerPreservesData()
 
 
     private fun givenHumanVictory() = FINISHED(HUMAN, 120)
@@ -38,7 +38,7 @@ class StatusSerializerTest {
     private fun givenOngoingStatus() = ONGOING
 
     @UnstableDefault
-    private fun Status.serializationCycleIntroducesNoDataCorruption() {
+    private fun Status.serializerPreservesData() {
         val serialized = Json.stringify(StatusSerializer, this)
         val deserialized = Json.parse(StatusSerializer, serialized)
 
