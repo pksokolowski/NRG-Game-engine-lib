@@ -44,6 +44,7 @@ kotlin {
             dependencies {
                 implementation kotlin('stdlib-common')
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.2.1'
             }
         }
         commonTest {
@@ -56,6 +57,7 @@ kotlin {
             dependencies {
                 implementation kotlin('stdlib-jdk8')
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
             }
         }
         jvmTest {
@@ -68,6 +70,7 @@ kotlin {
             dependencies {
                 implementation kotlin('stdlib-js')
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serialization_version"
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.2.1'
             }
         }
         jsTest {
@@ -78,6 +81,7 @@ kotlin {
         mingwMain {
             dependencies {
                 implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization_version"
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.2.1'
             }
         }
         mingwTest {
